@@ -35,7 +35,7 @@ public enum Field {
         return title;
     }
 
-    public static Field getStatusByFlag(int flag){
+    public static Field getStatusByFlag(Integer flag){
         for(Field status:Field.values()){
             if(status.getFlag().equals(flag)){
                 return status;

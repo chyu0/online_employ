@@ -6,11 +6,17 @@
     <result column="job_field" property="jobField" jdbcType="INTEGER" />
     <result column="job_name" property="jobName" jdbcType="VARCHAR" />
     <result column="experience" property="experience" jdbcType="INTEGER" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="job_province" property="jobProvince" jdbcType="VARCHAR" />
+    <result column="job_city" property="jobCity" jdbcType="VARCHAR" />
+    <result column="job_dist" property="jobDist" jdbcType="VARCHAR" />
+    <result column="job_address" property="jobAddress" jdbcType="VARCHAR" />
     <result column="number" property="number" jdbcType="VARCHAR" />
-    <result column="salary" property="salary" jdbcType="VARCHAR" />
+    <result column="salary" property="salary" jdbcType="INTEGER" />
     <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="job_update_time" property="jobUpdateTime" jdbcType="TIMESTAMP"/>
     <result column="request" property="request" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR"/>
+    <result column="job_status" property="jobStatus" jdbcType="INTEGER" />
     <association property="companyDetail" javaType="com.chenyu.employ.company.model.CompanyDetail">
     	<id column="cd_id" property="cdId" jdbcType="INTEGER" />
 		<result column="company_type" property="companyType" jdbcType="VARCHAR" />
@@ -20,7 +26,7 @@
 			javaType="java.util.Date" jdbcType="DATE" />
 		<result column="staff_number" property="staffNumber" jdbcType="INTEGER" />
 		<result column="contact_tel" property="contactTel" jdbcType="VARCHAR" />
-		<result column="job_address" property="address" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
 		<result column="province" property="province" jdbcType="VARCHAR" />
 		<result column="city" property="city" jdbcType="VARCHAR" />
 		<result column="dist" property="dist" jdbcType="VARCHAR" />
@@ -41,13 +47,9 @@
 			<result column="status" property="status" jdbcType="INTEGER" />
 			<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 			<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-		</association> 
+		</association>
     </association>
   </resultMap>
-  <sql id="Base_Column_List" >
-    job_id, company_id, field_id, job_name, experience, address, number, salary, publish_time, 
-    request
-  </sql>
   
   <select id="getJobList" resultMap="resultMap" parameterType="com.chenyu.employ.job.dto.JobDto">
   	select 
@@ -63,7 +65,7 @@
 		from company_detail cd
 		inner join company c on cd.company_id=c.cid) c_d on j.companydetail_id=c_d.cd_id
 	    <if test="companyDetail.company.companyName!=null and companyDetail.company.companyName!=''">
-	    	and j.company_id=#{companyDetail.company.cid,jdbcType=INTEGER}
+	    	and j.companydetail_id=#{companyDetail.company.cid,jdbcType=INTEGER}
 	    </if>
 	    order by publish_time desc,weight asc
 	    <if test="offset!=null and pageSize!=null and pageSize!=''">
@@ -71,107 +73,54 @@
     	</if>
   </select>  
   
-  <select id="selectByPrimaryKey" resultMap="resultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from job
-    where job_id = #{jobId,jdbcType=INTEGER}
+  <select id="getJobCount" resultType="INTEGER" parameterType="com.chenyu.employ.job.model.Job">
+  	select 
+  	count(*)
+  	 from job j inner join(select
+		cd_id,c.companyName as companyName,
+		c.cid,
+		c.status,
+		c.create_time,
+		company_type,company_introduce, establish_date,staff_number,
+		contact_tel, offsite_url,
+		logo,address,province,city,dist,zipcode,field,company_email,weight,cd.update_time
+		from company_detail cd
+		inner join company c on cd.company_id=c.cid) c_d on j.companydetail_id=c_d.cd_id
+	    <if test="companyDetail.company.companyName!=null and companyDetail.company.companyName!=''">
+	    	and j.companydetail_id=#{companyDetail.company.cid,jdbcType=INTEGER}
+	    </if>
+  </select>  
+  
+  <select id="getJobByJobId" resultMap="resultMap" parameterType="INTEGER">
+  	select *
+  	from job j inner join(select
+		cd_id,c.companyName as companyName,
+		c.cid,
+		c.status,
+		c.create_time,
+		company_type,company_introduce, establish_date,staff_number,
+		contact_tel, offsite_url,
+		logo,address,province,city,dist,zipcode,field,company_email,weight,cd.update_time
+		from company_detail cd
+		inner join company c on cd.company_id=c.cid) c_d on j.companydetail_id=c_d.cd_id
+	    and j.job_id=#{jobId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from job
-    where job_id = #{jobId,jdbcType=INTEGER}
+  
+  <update id="changeJobStatus" parameterType="com.chenyu.employ.job.model.Job">
+  	update job
+  	set job_status=#{jobStatus,jdbcType=INTEGER} where
+  	job_id=#{jobId,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteJob" parameterType="Integer">
+  	delete from job where job_id=#{jobId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chenyu.employ.job.model.Job" >
-    insert into job (job_id, company_id, field_id, 
-      job_name, experience, address, 
-      number, salary, publish_time, 
-      request, exist_day)
-    values (#{jobId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{fieldId,jdbcType=INTEGER}, 
-      #{jobName,jdbcType=VARCHAR}, #{experience,jdbcType=TINYINT}, #{address,jdbcType=VARCHAR}, 
-      #{number,jdbcType=VARCHAR}, #{salary,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
-      #{request,jdbcType=VARCHAR}, #{existDay,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="com.chenyu.employ.job.model.Job" >
-    insert into job
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="jobId != null" >
-        job_id,
-      </if>
-      <if test="companyId != null" >
-        company_id,
-      </if>
-      <if test="fieldId != null" >
-        field_id,
-      </if>
-      <if test="jobName != null" >
-        job_name,
-      </if>
-      <if test="experience != null" >
-        experience,
-      </if>
-      <if test="address != null" >
-        address,
-      </if>
-      <if test="number != null" >
-        number,
-      </if>
-      <if test="salary != null" >
-        salary,
-      </if>
-      <if test="publishTime != null" >
-        publish_time,
-      </if>
-      <if test="request != null" >
-        request,
-      </if>
-      <if test="existDay != null" >
-        exist_day,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="jobId != null" >
-        #{jobId,jdbcType=INTEGER},
-      </if>
-      <if test="companyId != null" >
-        #{companyId,jdbcType=INTEGER},
-      </if>
-      <if test="fieldId != null" >
-        #{fieldId,jdbcType=INTEGER},
-      </if>
-      <if test="jobName != null" >
-        #{jobName,jdbcType=VARCHAR},
-      </if>
-      <if test="experience != null" >
-        #{experience,jdbcType=TINYINT},
-      </if>
-      <if test="address != null" >
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="number != null" >
-        #{number,jdbcType=VARCHAR},
-      </if>
-      <if test="salary != null" >
-        #{salary,jdbcType=VARCHAR},
-      </if>
-      <if test="publishTime != null" >
-        #{publishTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="request != null" >
-        #{request,jdbcType=VARCHAR},
-      </if>
-      <if test="existDay != null" >
-        #{existDay,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chenyu.employ.job.model.Job" >
-    update job
-    <set >
-      <if test="companyId != null" >
-        company_id = #{companyId,jdbcType=INTEGER},
-      </if>
-      <if test="fieldId != null" >
-        field_id = #{fieldId,jdbcType=INTEGER},
+  
+  <update id="updateJob" parameterType="com.chenyu.employ.job.model.Job">
+  update job
+  <set>
+  	<if test="jobField != null" >
+        job_field = #{jobField,jdbcType=INTEGER},
       </if>
       <if test="jobName != null" >
         job_name = #{jobName,jdbcType=VARCHAR},
@@ -179,14 +128,23 @@
       <if test="experience != null" >
         experience = #{experience,jdbcType=TINYINT},
       </if>
-      <if test="address != null" >
-        address = #{address,jdbcType=VARCHAR},
+      <if test="jobProvince != null" >
+        job_province = #{jobProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCity != null" >
+        job_city = #{jobCity,jdbcType=VARCHAR},
+      </if>
+      <if test="jobDist != null" >
+        job_dist = #{jobDist,jdbcType=VARCHAR},
+      </if>
+      <if test="jobAddress != null" >
+        job_address = #{jobAddress,jdbcType=VARCHAR},
       </if>
       <if test="number != null" >
-        number = #{number,jdbcType=VARCHAR},
+        number = #{number,jdbcType=INTEGER},
       </if>
       <if test="salary != null" >
-        salary = #{salary,jdbcType=VARCHAR},
+        salary = #{salary,jdbcType=INTEGER},
       </if>
       <if test="publishTime != null" >
         publish_time = #{publishTime,jdbcType=TIMESTAMP},
@@ -194,24 +152,27 @@
       <if test="request != null" >
         request = #{request,jdbcType=VARCHAR},
       </if>
-      <if test="existDay != null" >
-        exist_day = #{existDay,jdbcType=INTEGER},
+      <if test="description!=null">
+      	description=#{description,jdbcType=VARCHAR},
       </if>
-    </set>
-    where job_id = #{jobId,jdbcType=INTEGER}
+      job_update_time=now()
+   </set>
+   where job_id=#{jobId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chenyu.employ.job.model.Job" >
-    update job
-    set company_id = #{companyId,jdbcType=INTEGER},
-      field_id = #{fieldId,jdbcType=INTEGER},
-      job_name = #{jobName,jdbcType=VARCHAR},
-      experience = #{experience,jdbcType=TINYINT},
-      address = #{address,jdbcType=VARCHAR},
-      number = #{number,jdbcType=VARCHAR},
-      salary = #{salary,jdbcType=VARCHAR},
-      publish_time = #{publishTime,jdbcType=TIMESTAMP},
-      request = #{request,jdbcType=VARCHAR},
-      exist_day = #{existDay,jdbcType=INTEGER}
-    where job_id = #{jobId,jdbcType=INTEGER}
+  
+  <insert id="saveJob" parameterType="com.chenyu.employ.job.model.Job">
+  	insert into job(companydetail_id,job_field,job_name,experience,job_province,job_city,job_dist,job_address,number
+  	,salary,publish_time,job_update_time,request,description) values(#{companyDetail.cdId,jdbcType=INTEGER},#{jobField,jdbcType=INTEGER}, 
+      #{jobName,jdbcType=VARCHAR}, #{experience,jdbcType=INTEGER},
+      #{jobProvince,jdbcType=VARCHAR},#{jobCity,jdbcType=VARCHAR},
+      #{jobDist,jdbcType=VARCHAR},#{jobAddress,jdbcType=VARCHAR},
+      #{number,jdbcType=INTEGER},#{salary,jdbcType=INTEGER},now(),now(),
+      #{request,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="pulishAgain" parameterType="java.lang.Integer">
+  	update job set publish_time=now()
+  	where job_id=#{jodId,jdbcType=INTEGER}
   </update>
+  
 </mapper>

@@ -27,7 +27,7 @@ MoreThanFiveThousand(5,"5000以上");
         return title;
     }
 
-    public static StaffRange getStatusByFlag(int flag){
+    public static StaffRange getStatusByFlag(Integer flag){
         for(StaffRange status:StaffRange.values()){
             if(status.getFlag().equals(flag)){
                 return status;

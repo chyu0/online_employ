@@ -30,7 +30,7 @@ Other(7,"其他") ;
         return title;
     }
 
-    public static CompanyType getStatusByFlag(int flag){
+    public static CompanyType getStatusByFlag(Integer flag){
         for(CompanyType status:CompanyType.values()){
             if(status.getFlag().equals(flag)){
                 return status;

@@ -9,15 +9,17 @@ public interface JobMapper {
     
     public List<Job> getJobList(JobDto jobDto);
     
-    int deleteByPrimaryKey(Integer jobId);
-
-    int insert(Job record);
-
-    int insertSelective(Job record);
-
-    Job selectByPrimaryKey(Integer jobId);
-
-    int updateByPrimaryKeySelective(Job record);
-
-    int updateByPrimaryKey(Job record);
+    public Integer getJobCount(Job job);
+    
+    public Job getJobByJobId(Integer jobId);
+    
+    public void changeJobStatus(Job job);
+    
+    public void deleteJob(Integer jobId);
+    
+    public void updateJob(Job job);
+    
+    public void saveJob(Job job);
+    
+    public void pulishAgain(Integer jobId);
 }

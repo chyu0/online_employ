@@ -14,17 +14,28 @@ public class Job {
     private String jobName;
 
     private Integer experience;
+    
+    private String jobProvince;
+    
+    private String jobCity;
+    
+    private String jobDist;
 
     private String jobAddress;
 
     private String number;
 
-    private String salary;
+    private Integer salary;
 
     private Timestamp publishTime;
 
     private String request;
+    
+    private String description;
+    
+    private Timestamp jobUpdateTime;
 
+    private Integer jobStatus;
     public Integer getJobId() {
         return jobId;
     }
@@ -66,7 +77,31 @@ public class Job {
         this.experience = experience;
     }
 
-    public String getJobAddress() {
+    public String getJobProvince() {
+		return jobProvince;
+	}
+
+	public void setJobProvince(String jobProvince) {
+		this.jobProvince = jobProvince;
+	}
+
+	public String getJobCity() {
+		return jobCity;
+	}
+
+	public void setJobCity(String jobCity) {
+		this.jobCity = jobCity;
+	}
+
+	public String getJobDist() {
+		return jobDist;
+	}
+
+	public void setJobDist(String jobDist) {
+		this.jobDist = jobDist;
+	}
+
+	public String getJobAddress() {
 		return jobAddress;
 	}
 
@@ -82,12 +117,12 @@ public class Job {
         this.number = number == null ? null : number.trim();
     }
 
-    public String getSalary() {
+    public Integer getSalary() {
         return salary;
     }
 
-    public void setSalary(String salary) {
-        this.salary = salary == null ? null : salary.trim();
+    public void setSalary(Integer salary) {
+        this.salary = salary;
     }
 
     public Timestamp getPublishTime() {
@@ -105,5 +140,31 @@ public class Job {
     public void setRequest(String request) {
         this.request = request == null ? null : request.trim();
     }
+
+	public Timestamp getJobUpdateTime() {
+		return jobUpdateTime;
+	}
+
+	public void setJobUpdateTime(Timestamp jobUpdateTime) {
+		this.jobUpdateTime = jobUpdateTime;
+	}
+
+	public Integer getJobStatus() {
+		return jobStatus;
+	}
+
+	public void setJobStatus(Integer jobStatus) {
+		this.jobStatus = jobStatus;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description== null ? null : description.trim();
+	}
+	
+	
 
 }

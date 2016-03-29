@@ -101,7 +101,7 @@
       		         type : "post",  
       		         url : "/company/lockOrActiveCompany.jhtml",  
       		         dataType:"json",
-      		         data : {"cid":cid,"status":status},
+      		         data : {'cid':cid,'status':status},
       		         success : function(data, textStatus) {
       			        if(data.state.code==200){
       			        	setTimeout('window.location="/company/companyList.jhtml"',1500);

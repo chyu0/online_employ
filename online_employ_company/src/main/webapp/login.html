@@ -84,10 +84,11 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/validation/jquery.validate.js"></script>
 	<script src="assets/js/validation/messages_cn.js"></script> 
+	    <script src="/assets/js/toastr/toastr.js"></script>
     <!--Beyond Scripts-->
     <script src="assets/js/beyond.js"></script>
 		
-	<script type="text/javascript"><!--
+	<script type="text/javascript">
 		$("#loginButton").click(function(){
 			$.ajax( {  
 		         type : "post",  
@@ -97,15 +98,15 @@ Purchase: http://wrapbootstrap.com
 		         data : {loginname:$("#loginname").val(),password:$("#password").val()},
 		         success : function(data, textStatus) {
 			        if(data.state.code==200){
-				        alert(data.state.msg);
-				        window.location.href="/index.jhtml";
+			        	setTimeout('window.location="/index.jhtml"',1500);
+  			        	Notify('登陆成功', 'bottom-right', '1500', 'success', 'fa-desktop', true);
 				    }else{	
-					    alert(data.state.msg);
+				    	Notify(data.state.msg, 'bottom-right', '1500', 'danger', 'fa-desktop', true);
 					}
 		         }
 		     });  
 		})
-	--></script>
+	</script>
 </body>
 <!--Body Ends-->
 </html>

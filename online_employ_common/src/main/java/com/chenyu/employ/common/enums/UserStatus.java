@@ -24,13 +24,12 @@ public enum UserStatus {
         return title;
     }
 
-    public static UserStatus getStatusByFlag(int flag){
+    public static UserStatus getStatusByFlag(Integer flag){
         for(UserStatus status:UserStatus.values()){
             if(status.getFlag().equals(flag)){
                 return status;
             }
         }
         return null;
-    }
-    
+    } 
 }

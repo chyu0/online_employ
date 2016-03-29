@@ -1,0 +1,204 @@
+<@override name="page_body">
+<div class="row">
+	<div class="col-lg-10 col-sm-6 col-xs-12">
+		<div class="widget">
+			<div class="widget-header bordered-bottom bordered-palegreen">
+				<span class="widget-caption">企业信息编辑</span>
+			</div>
+			<div class="widget-body">
+				<div>
+					<form class="form-horizontal form-bordered" role="form" action="saveOrUpdate.jhtml" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="company.cid" value="${companyDetail.company.cid!''}"/>
+					<input type="hidden" name="cdId" value="${companyDetail.cdId}">
+						<div class="form-group">
+							<label for="inputCompanyName"
+								class="col-sm-1 control-label no-padding-right">企业名称</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control" name="company.companyName" disabled
+									placeholder="" value="${companyDetail.company.companyName!''}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputContactTel"
+								class="col-sm-1 control-label no-padding-right">联系电话</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" name="contactTel" <#if !company.companyName??>disabled</#if>
+									placeholder="" value="${companyDetail.contactTel!''}">
+							</div>
+							<label for="inputEmail"
+								class="col-sm-1 control-label no-padding-right">投递Email</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" name="companyEmail" <#if !company.companyName??>disabled</#if>
+									placeholder="" value="${companyDetail.companyEmail!''}">
+							</div>
+						</div>
+
+						<div class="form-group">
+
+							<label for="inputStaffNumber"
+								class="col-sm-1 control-label no-padding-right">公司规模</label>
+							<div class="col-sm-5">
+								<#if company.companyName??>
+								<select class="e1" style="width: 100%;" name="staffNumber" >
+									<#list StaffRange.values() as item>
+										<option value="${item.getFlag()!''}" <#if item.getFlag()??&&companyDetail.staffNumber??&&item.getFlag()==companyDetail.staffNumber>selected</#if>/> ${item.getTitle()!''}
+									</#list>
+								</select>
+								<#else>
+									<input type="text" class="form-control" name="companyType" disabled
+									placeholder="" value="${(StaffRange.getStatusByFlag(companyDetail.staffNumber?number).getTitle())!''}">
+								</#if>
+							</div>
+							<label for="inputCompanyType"
+								class="col-sm-1 control-label no-padding-right">企业类型</label>
+							<div class="col-sm-5">
+								<#if company.companyName??>
+								<select class="e1" style="width: 100%;" name="companyType">
+									<#list CompanyType.values() as item>
+										<option value="${item.getFlag()!''}" <#if item.getFlag()??&&companyDetail.companyType??&&item.getFlag()==companyDetail.companyType>selected</#if>/> ${item.getTitle()!''}
+									</#list>
+								</select>
+								<#else>
+									<input type="text" class="form-control" name="companyType" disabled
+									placeholder="" value="${(CompanyType.getStatusByFlag(companyDetail.companyType?number).getTitle())!''}">
+								</#if>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="inputEstablishDate"
+								class="col-sm-1 control-label no-padding-right">创办时间</label>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input class="form-control date-picker" name="establishDate" <#if !company.companyName??>disabled</#if>
+									type="text" data-date-format="yyyy/mm/dd" value="${(companyDetail.establishDate?string('yyyy/MM/dd'))!''}"> <span
+										class="input-group-addon"> <i class="fa fa-calendar"></i>
+									</span>
+								</div>
+							</div>
+							<label for="inputOffsiteUrl"
+								class="col-sm-1 control-label no-padding-right">企业网址</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="offsiteUrl" <#if !company.companyName??>disabled</#if>
+									placeholder="" value="${companyDetail.offsiteUrl!''}">
+							</div>
+						</div>
+						<div class="form-group">
+
+							<label for="inputZipcode"
+								class="col-sm-1 control-label no-padding-right">邮政编码</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" name="zipcode" <#if !company.companyName??>disabled</#if>
+									placeholder="" value="${companyDetail.zipcode!''}">
+							</div>
+							<label for="inputField"
+								class="col-sm-1 control-label no-padding-right">领域</label>
+							<div class="col-sm-5">
+								<#if company.companyName??>
+								<select class="e1" style="width: 100%;" name="field" >
+									<#list Field.values() as item>
+										<option value="${item.getFlag()!''}" <#if item.getFlag()??&&companyDetail.field??&&item.getFlag()==companyDetail.field>selected</#if>/> ${item.getTitle()!''}
+									</#list>
+								</select>
+								<#else>
+									<input type="text" class="form-control" name="field" disabled
+									placeholder="" value="${(Field.getStatusByFlag(companyDetail.field?number).getTitle())!''}">
+								</#if>
+							</div>
+						</div>
+						<div class="form-group" id="city_2">
+							<label for="inputContactAddress"
+								class="col-sm-1 control-label no-padding-right">企业地址</label>
+							<div class="col-sm-9">
+							<#if company.companyName??>
+								<div class="col-xs-6">
+								<select class="prov" name="province"></select> 
+								<select class="city" name="city" disabled="disabled"></select>
+								<select class="dist" name="dist" disabled="disabled"></select>
+								</div>
+								<div class="col-xs-6">
+								<input type="text" class="form-control" name="address"
+									placeholder="" value="${companyDetail.address!''}">
+								</div>
+							<#else>
+								<input type="text" class="form-control" name="companyAddress" disabled
+									placeholder="" value="${companyDetail.province!''}${companyDetail.city!''}${companyDetail.dist!''}${companyDetail.address!''}">
+							</#if>
+							</div>
+							
+						</div>
+
+						<div class="form-group">
+							<label for="inputCompanyIntroduce"
+								class="col-sm-1 control-label no-padding-right">企业详情</label>
+							<div class="col-sm-11">
+								<textarea class="form-control" rows="10" name="companyIntroduce" <#if !company.companyName??>disabled</#if>>${companyDetail.companyIntroduce!''}</textarea>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="inputEmail3"
+								class="col-sm-1 control-label no-padding-right">logo</label>
+							<div class="col-sm-5">
+								<input type="hidden" name="originPic" id="originPic" value="${companyDetail.logo!''}">
+								<div id="imgdiv">
+									<img src="<#if companyDetail.logo??>${companyDetail.logo!''}</#if>" id="imgShow" width="80" height="80" />
+								</div>
+								<#if company.companyName??>
+								<input class="" type="file" id="logoImg" name="logoImg"/>
+								</#if>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-11">
+							<#if company.companyName??>
+								<button type="submit" class="btn btn-palegreen">Sign in</button>
+							<#else>
+								<a href="/company/companyList.jhtml" class="btn btn-palegreen">Back</a>
+							</#if>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</@override> 
+<@override name="script_body">
+<script src="/assets/js/uploadPreview.js"></script>
+<script type="text/javascript" src="/assets/js/city/jquery.cityselect.js"></script>
+<script type="text/javascript">
+	    window.onload = function() {
+		new uploadPreview({
+			UpBtn : "logoImg",
+			DivShow : "imgdiv",
+			ImgShow : "imgShow"
+		});
+		}
+	    $('.date-picker').datepicker();
+	    $("#e2").select2();
+	    $("#logoImg").on('change',function(){
+			var video_src_file = $(this).val();
+			var fileTypes = new Array("jpg","png","gif","jpeg","bmp");  //定义可支持的文件类型数组
+			var fileTypeFlag = "0";
+			var newFileName = video_src_file.split('.');
+			newFileName = newFileName[newFileName.length-1];
+			for(var i=0;i<fileTypes.length;i++){
+			　　if(fileTypes[i] == newFileName){
+			　　　　fileTypeFlag = "1";
+			　　}
+			}
+			if(fileTypeFlag == "0"){
+			　　alert("图片文件必须是jpg,png,gif,jpeg,bmp格式中的一种！");
+			　　return false;
+			}	
+		});
+	    $("#city_2").citySelect({prov:"${companyDetail.province!''}",city:"${companyDetail.city!''}",dist:"${companyDetail.dist!''}"});
+</script>
+
+</@override>
+<@extends name="/index.html"/> 
+

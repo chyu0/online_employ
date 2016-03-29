@@ -1,0 +1,190 @@
+<@override name="page_body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="well with-header with-footer">
+                                <div class="header bordered-pink">
+                                                                                                   企业列表(共有${page.getTotalCount()!''}条记录)
+                                </div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                        	<th><i class="fa fa-briefcase"></i>序号</th>
+                                            <th>
+                                                <i class="fa fa-briefcase"></i> 企业名称
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-user"></i> 企业logo
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-shopping-cart"></i> 创建时间
+                                            </th>
+                                            <th>
+                                            	<i class="fa fa-briefcase"></i>联系电话
+                                            </th>
+                                            <th>
+                                            	<i class="fa fa-briefcase"></i>网址
+                                            </th>
+                                            <#if !(company.companyName??)>
+                                            	<th>
+                                            	<i class="fa fa-briefcase"></i>权值
+                                            	</th>
+                                            </#if>
+                                            <th>
+                                            	<i class="fa fa-briefcase"></i>更新时间
+                                            </th>
+                                            <th>
+                                            	<i class="fa fa-briefcase"></i>操作
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                   					<#list page.getItems() as item>
+                                        <tr>
+                                            <td>
+                                                ${(page.pageNo-1)*page.pageSize+item_index+1}
+                                            </td>
+                                            <td>
+                                                ${(item.company.companyName)!''}
+                                            </td>
+                                            <td>
+                                                <img src="<#if item.logo??>${item.logo!''}<#else>/assets/img/avatars/default.jpg</#if>" style="width:40px; height:40px;" class="header-avatar">
+                                            </td>
+                                            <td>
+                                                ${(item.establishDate?string('yyyy-MM-dd'))!''}
+                                            </td>
+                                            <td>
+                                                ${(item.contactTel)!''}
+                                            </td>
+                                            <td>
+                                                <a href="${(item.offsiteUrl)!'#'}" target="blank">${(item.offsiteUrl)!''}</a>
+                                            </td>
+                                            <#if !(company.companyName??)>
+                                            	<td>
+                                            	${item.weight!0}
+                                            	</td>
+                                            </#if>
+                                            <td>
+                                                ${(item.updateTime?string('yyyy-MM-dd HH:mm:ss'))!''}
+                                            </td>
+                                            <td>
+                                           	<a href="toEdit.jhtml?cdId=${item.cdId!''}" class="btn btn-default btn-xs purple"><i class="fa fa-edit"></i> <#if company.cid??&&item.company.cid??&&company.cid == item.company.cid>编辑<#else>查看</#if></a>
+                                           	<#if !(company.cid??&&item.company.cid??&&company.cid == item.company.cid)>
+                                            <a href="#" title="${(UserStatus.getStatusByFlag(item.company.status).getTitle())!''}" class="btn btn-default btn-xs purple lockOrActive" status="${item.company.status!''}" cid="${item.company.cid!''}"><#if item.company.status==0><i class="fa fa-edit"></i> 激活<#else><i class="fa fa-edit"></i>冻结</#if></a>
+                                            <a href="#" title="${item.cdId!''}" weight="${item.weight!0}" class="btn btn-default btn-xs purple changeWeight">修改权值</a>
+                                            <#else>
+                                             <a href="#" title="${item.company.cid!''}" oldPassword="${item.company.password!''}" class="btn btn-default btn-xs purple changePassword">修改密码</a>
+                                            </#if>
+                                            </td>
+                                        </tr>	
+                  						</#list>
+                                    </tbody>
+                                </table>
+
+                                <div class="footer dataTables_paginate paging_bootstrap" style="padding: 0px">
+                                    	<#include "/pagination.html">                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+</@override>
+<@override name="script_body"> 
+	<script type="text/javascript">
+	   $(".lockOrActive").on('click', function () {
+		   var context="你确定要执行"+$(this).attr("title")+"操作吗？";
+		   var status=$(this).attr("status");
+		   var cid=$(this).attr("cid");
+           bootbox.confirm(context, function (result) {
+               if (result) {
+            	   $.ajax( {  
+      		         type : "post",  
+      		         url : "/company/lockOrActiveCompany.jhtml",  
+      		         dataType:"json",
+      		         data : {"cid":cid,"status":status},
+      		         success : function(data, textStatus) {
+      			        if(data.state.code==200){
+      			        	setTimeout('window.location="/company/companyList.jhtml"',1500);
+      			        	Notify('操作成功', 'bottom-right', '1500', 'success', 'fa-desktop', true);
+      				    }else{	
+      				    	Notify(data.state.msg, 'bottom-right', '1500', 'danger', 'fa-desktop', true);
+      					}
+      		         }
+      		     });  
+               }
+           });
+       });
+
+	   $("#page").on('click',function(){
+			var no=$("#no").val();
+			location.href="${requestUrl}?pageNo="+no;
+		});
+
+	   $(".changeWeight").bind('click', function () {
+		   var cdId=$(this).attr("title");
+           bootbox.dialog({
+               message: "<form action='' method='post'>新权值<input type='text' class='form-control' placeholder='当前权值为"+$(this).attr("weight")+"' id='newWeight'/></form>",
+               title: "修改权值",
+               buttons: {
+                   success: {
+                       label: "确定",
+                       className: "btn-default",
+                       callback: function () {
+                		   var weight = $("#newWeight").val();
+							$.ajax({
+								type : "post",  
+						        url : "/company/changeWeight.jhtml",  
+						        dataType:"json",
+						        data : {"cdId":cdId,"weight":weight},
+						        success : function(data, textStatus) {
+							        if(data.state.code==200){
+							        	setTimeout('window.location="/company/companyList.jhtml"',1500);
+								        Notify('操作成功', 'bottom-right', '1500', 'success', 'fa-desktop', true);
+								    }else{	
+								    	Notify(data.state.msg, 'bottom-right', '1500', 'danger', 'fa-desktop', true);
+									}
+						         }
+							});
+                       }
+                   }
+               }
+           });
+       });
+
+$(".changePassword").bind('click', function () {
+		   
+           bootbox.dialog({
+               message: "<form action='' method='post'>原始密码<input type='password' class='form-control' id='oldPassword'/>新密码<input type='password' class='form-control' id='password'/>确认新密码<input type='password' class='form-control' id='confirmPassword'/></form>",
+               title: "修改权值",
+               buttons: {
+                   success: {
+                       label: "确定",
+                       className: "btn-default",
+                       callback: function () {
+                		   var cid=$(".changePassword").attr("title");
+                		   var oldPassword = $("#oldPassword").val();
+                		   var confirmPassword = $("#confirmPassword").val();
+                		   var password = $("#password").val();
+							$.ajax({
+								type : "post",  
+						        url : "/company/changePassword.jhtml",  
+						        dataType:"json",
+						        data : {"cid":cid,"password":password,"oldPassword":oldPassword,"confirmPassword":confirmPassword},
+						        success : function(data, textStatus) {
+							        if(data.state.code==200){
+							        	setTimeout('window.location="/company/companyList.jhtml"',1500);
+								        Notify('操作成功', 'bottom-right', '1500', 'success', 'fa-desktop', true);
+								    }else{	
+								    	Notify(data.state.msg, 'bottom-right', '1500', 'danger', 'fa-desktop', true);
+									}
+						         }
+							});
+                       }
+                   }
+               }
+           });
+       });
+       
+	</script>
+</@override>
+<@extends name="/index.html"/> 

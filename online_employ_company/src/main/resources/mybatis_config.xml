@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logPrefix" value="dao." />
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25000" />
+	</settings>
+<!-- 	<typeAliases>
+		<typeAlias alias="Apply" type="com.chenyu.employ.apply.model.Apply" />
+		<typeAlias alias="Company" type="com.chenyu.employ.company.model.Company" />
+		<typeAlias alias="CompanyDetail" type="com.chenyu.employ.company.model.CompanyDetail" />
+		<typeAlias alias="Job" type="com.chenyu.employ.job.model.Job" />
+		<typeAlias alias="Resume" type="com.chenyu.employ.resume.model.Resume" />
+		<typeAlias alias="Trade" type="com.chenyu.employ.trade.model.Trade" />
+		<typeAlias alias="User" type="com.chenyu.employ.user.model.User" />
+		<typeAlias alias="UserDetail" type="com.chenyu.employ.user.model.UserDetail" />
+	</typeAliases> -->
+	
+	
+</configuration>

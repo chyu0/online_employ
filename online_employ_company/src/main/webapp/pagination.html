@@ -1,0 +1,43 @@
+<#if page.getItems()??>
+	<nav style="text-align: right">
+		<ul class="pagination" style="margin: 10px">
+			<#-- <li class="prev <#if !page.isHavePrePage()> disabled</#if>"><a
+				href="${requestUrl}?pageNo=<#if page.getPageNo()?? && page.getPageNo() lte 1>1<#else>${((page.getPageNo())!2)-1}</#if>">上一页</a></li> -->
+			<#if page.getPageNo()?? && page.getPageNo() gt 4>
+				<li><a href="${requestUrl}?pageNo=1">1</a></li>
+				<li><a href="#">...</a></li> </#if> <#if page.getPageNo()?? && page.getPageNo() == 4>
+				<li><a href="${requestUrl}?pageNo=1">1</a></li> 
+			</#if> 
+			<#if page.getPageNo()?? && page.getPageNo() gte 3>
+				<li><a href="${requestUrl}?pageNo=${((page.getPageNo())!3)-2}">${((page.getPageNo())!3)-2}</a></li>
+				<li><a href="${requestUrl}?pageNo=${((page.getPageNo())!3)-1}">${((page.getPageNo())!3)-1}</a></li>
+			</#if> 
+			<#if page.getPageNo()?? && page.getPageNo() == 2>
+				<li><a href="${requestUrl}?pageNo=1">1</a></li> 
+			</#if>
+			<li class="active"><a href="${requestUrl}?pageNo=${((page.getPageNo())!3)}">${((page.getPageNo())!3)}</a></li>
+			<#if page.getPageNo()?? && page.getPageNo() lte (page.getPageCount()-1)>
+				<li><a href="${requestUrl}?pageNo=${((page.getPageNo())!3)+1}">${((page.getPageNo())!3)+1}</a></li>
+			</#if> 	
+			<#if page.getPageNo()?? && page.getPageNo() lte (page.getPageCount()-2)>
+				<li><a href="${requestUrl}?pageNo=${((page.getPageNo())!3)+2}">${((page.getPageNo())!3)+2}</a></li>
+			</#if> 
+			
+			<#if page.getPageNo()?? && page.getPageCount() gt page.getPageNo()+3>
+				<li><a href="#">...</a></li> 
+			</#if> 
+			<#if page.getPageNo()?? && page.getPageCount() gt page.getPageNo()+2>
+				<li><a href="${requestUrl}?pageNo=${((page.getPageCount())!6)}">${((page.getPageCount())!5)}</a></li>
+			</#if>
+			<#-- <li><a href="#">第${page.getPageNo()!1}页/共${page.getPageCount()!1}页</a></li> -->
+
+			<#-- <li class="next <#if !page.isHaveNextPage()>disabled</#if>"><a
+				href="${requestUrl}?pageNo=<#if page.getPageNo()?? && page.getPageNo() gte page.getPageCount()>${(page.getPageCount())!1}<#else>${((page.getPageNo())!0)+1}</#if>">下一页</a>
+			</li> -->
+			<li>第<input id="no" type="text" class="input-sm"
+				style="width: 46px; height: 32px">页
+			</li>
+			<li><a href="#" id="page" class="btn btn-default">跳转</a></li>
+		</ul>
+	</nav>
+</#if>

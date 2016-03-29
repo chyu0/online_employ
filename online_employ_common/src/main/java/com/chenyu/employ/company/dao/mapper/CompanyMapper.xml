@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chenyu.employ.company.dao.CompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.chenyu.employ.company.model.Company" >
+    <id column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="companyName" property="companyName" jdbcType="VARCHAR" />
+    <result column="loginName" property="loginname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    cid, companyName, loginName, password, status, create_time,update_time
+  </sql>
+  
+  <select id="findCompanyById" resultType="com.chenyu.employ.company.model.Company" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from company
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="register" parameterType="com.chenyu.employ.company.model.Company" >
+    insert into company (cid, companyName, loginName, 
+      password, status, create_time
+      )
+    values (null, #{companyName,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <select id="isExistLoginName" parameterType="String" resultType="com.chenyu.employ.company.model.Company">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from company
+  	where loginName=#{loginname,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getCompanyByNameAndPasd" resultType="com.chenyu.employ.company.model.Company" parameterType="com.chenyu.employ.company.model.Company">
+  	select
+  	<include refid="Base_Column_List" />
+  	from company
+  	where loginName=#{loginname,jdbcType=VARCHAR} and password=#{password,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="modifyPassword" parameterType="com.chenyu.employ.company.model.Company" >
+    update company
+    <set >
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  
+  <update id="changeStatus" parameterType="com.chenyu.employ.company.model.Company" >
+    update company set status=#{status,jdbcType=INTEGER}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update> 
+  
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<context:annotation-config /> 
+	<!-- 扫描控制器所对应的包，此时必须声明 -->
+	<context:component-scan base-package="com.chenyu.employ">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />  
+	<mvc:annotation-driven />
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    <property name="messageConverters">
+        <list>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value> 
+                    </list>
+                </property>
+            </bean>
+        </list>
+    </property>
+    
+</bean>
+	
+	<mvc:default-servlet-handler />
+	<!-- 添加freemarkerConfig的配置，使用freemarker模板引擎 -->
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+
+		<!-- 页面渲染路径为/WEB-INF/teamplate/user -->
+		<property name="templateLoaderPath" value="/" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="tag_syntax">${tag_syntax}</prop>
+				<prop key="template_update_delay">${template_update_delay}</prop>
+				<prop key="default_encoding">${default_encoding}</prop>
+				<prop key="output_encoding">${output_encoding}</prop>
+				<prop key="date_format">${date_format}</prop>
+				<prop key="datetime_format">${datetime_format}</prop>
+				<prop key="time_format">${time_format}</prop>
+				<prop key="number_format">${number_format}</prop>
+				<prop key="locale">${locale}</prop>
+				<prop key="object_wrapper">freemarker.ext.beans.BeansWrapper</prop>
+			</props>
+		</property>
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="xml_escape" value-ref="fmXmlEscape" />
+				<!--下面四个是在下面定义的 -->
+				<entry key="extends" value-ref="extendsDirective" />
+				<entry key="override" value-ref="overrideDirective" />
+				<entry key="block" value-ref="blockDirective" />
+				<entry key="super" value-ref="superDirective" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
+	<!-- freemaker Directive -->
+	<bean id="blockDirective"
+		class="cn.org.rapid_framework.freemarker.directive.BlockDirective" />
+	<bean id="extendsDirective"
+		class="cn.org.rapid_framework.freemarker.directive.ExtendsDirective" />
+	<bean id="overrideDirective"
+		class="cn.org.rapid_framework.freemarker.directive.OverrideDirective" />
+	<bean id="superDirective"
+		class="cn.org.rapid_framework.freemarker.directive.SuperDirective" />
+
+	<bean id="freemarkerStatic" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:properties/staticClass.properties" />
+    </bean>
+    
+    <bean id="freemarkerStaticModels" class="com.chenyu.employ.common.freemarker.FreemarkerStaticModels" factory-method="getInstance">
+        <property name="staticModels" ref="freemarkerStatic"/>
+    </bean>
+	<!-- 要求视图使用FreeMarker模板 -->
+	<bean id="ftlviewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+		<property name="cache" value="true" />
+		<property name="suffix" value=".html" />
+		<!-- 此处需要声明为utf-8编码，否则即使页面是utf-8编码，中文还是不能正常显示 -->
+		<property name="contentType" value="text/html;charset=UTF-8"></property>
+		<property name="attributesMap" ref="freemarkerStaticModels"/>
+	</bean>
+
+	<bean id="configProperty"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:properties/*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 定义数据源dataSource -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+
+	<!-- mybatis -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis_config.xml" />
+		<property name="mapperLocations"
+			value="classpath*:com/chenyu/employ/*/dao/mapper/*.xml" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<property name="basePackage" value="com.chenyu.employ.*.dao" />
+	</bean>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean id="loginInterceptor"
+				class="com.chenyu.employ.company.interceptor.LoginInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+</beans>

@@ -1,0 +1,141 @@
+<@override name="page_body">
+<div class="row">
+	<div class="col-lg-10 col-sm-6 col-xs-12">
+		<div class="widget">
+			<div class="widget-header bordered-bottom bordered-palegreen">
+				<span class="widget-caption">工作信息<#if !company.companyName??>查看<#else>编辑</#if>(${(job.companyDetail.company.companyName)!''})</span>
+			</div>
+			<div class="widget-body">
+				<div>
+					<form class="form-horizontal form-bordered" role="form" action="saveOrUpdateJob.jhtml" method="post">
+					<input type="hidden" name="jobId" value="${(job.jobId)!''}"/>
+						<div class="form-group">
+							<label for="inputJobName"
+								class="col-sm-1 control-label no-padding-right">职位名称</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" name="jobName" <#if !company.companyName??>disabled</#if>
+									placeholder="" value="${(job.jobName)!''}">
+							</div>
+							<label for="inputNumber"
+								class="col-sm-1 control-label no-padding-right">需求量</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" name="number" <#if !company.companyName??>disabled</#if>
+									placeholder="" value="${(job.number)!''}">
+							</div>
+						</div>
+
+						<div class="form-group">
+
+							<label for="inputExperience"
+								class="col-sm-1 control-label no-padding-right">工作经验范围</label>
+							<div class="col-sm-3">
+								<#if company.companyName??>
+								<select class="e1" style="width: 100%;" name="experience" >
+								<option value=''>--请选择--</option>
+									<#list ExperienceRange.values() as item>
+										<option value="${item.getFlag()!''}" <#if item.getFlag()??&&(job.experience)??&&item.getFlag()==(job.experience)>selected</#if>/> ${item.getTitle()!''}
+									</#list>
+								</select>
+								<#else>
+									<input type="text" class="form-control" name="experience" disabled
+									placeholder="" value="${(ExperienceRange.getStatusByFlag(job.experience?number).getTitle())!''}">
+								</#if>
+							</div>
+							<label for="inputJobField"
+								class="col-sm-1 control-label no-padding-right">工作类型</label>
+							<div class="col-sm-3">
+								<#if company.companyName??>
+								
+								<select class="e1" style="width: 100%;" name="jobField">
+								<option value=''>--请选择--</option>
+									<#list Field.values() as item>
+										<option value="${item.getFlag()!''}" <#if item.getFlag()??&&(job.jobField)??&&item.getFlag()==(job.jobField)>selected</#if>/> ${item.getTitle()!''}
+									</#list>
+								</select>
+								<#else>
+									<input type="text" class="form-control" name="jobField" disabled
+									placeholder="" value="${(Field.getStatusByFlag(job.jobField?number).getTitle())!''}">
+								</#if>
+							</div>
+							<label for="inputSalary"
+								class="col-sm-1 control-label no-padding-right">薪资</label>
+							<div class="col-sm-3">
+								<#if company.companyName??>
+								
+								<select class="e1" style="width: 100%;" name="salary">
+								<option value=''>--请选择--</option>
+									<#list SalaryRange.values() as item>
+										<option value="${item.getFlag()!''}" <#if item.getFlag()?? && (job.salary)?? && item.getFlag()==(job.salary)>selected</#if>/> ${item.getTitle()!''}
+									</#list>
+								</select>
+								<#else>
+									<input type="text" class="form-control" name="salary" disabled
+									placeholder="" value="${(SalaryRange.getStatusByFlag(job.salary?number).getTitle())!''}">
+								</#if>
+							</div>
+						</div>
+
+						<div class="form-group" id="city_2">
+							<label for="inputAddress"
+								class="col-sm-1 control-label no-padding-right">工作地点</label>
+							<div class="col-sm-9">
+							<#if company.companyName??>
+								<div class="col-xs-6">
+								<select class="prov" name="jobProvince"></select> 
+								<select class="city" name="jobCity" disabled="disabled"></select>
+								<select class="dist" name="jobDist" disabled="disabled"></select>
+								</div>
+								<div class="col-xs-6">
+								<input type="text" class="form-control" name="jobAddress"
+									placeholder="" value="${(job.jobAddress)!''}">
+								</div>
+							<#else>
+								<input type="text" class="form-control" name="jobAddress" disabled
+									placeholder="" value="${(job.jobProvince)!''}${(job.jobCity)!''}${(job.jobDist)!''}${(job.jobAddress)!''}">
+							</#if>
+							</div>
+							
+						</div>
+						<div class="form-group">
+							<label for="inputRequest"
+								class="col-sm-1 control-label no-padding-right">职位要求</label>
+							<div class="col-sm-11">
+								<textarea class="form-control" rows="10" name="request" <#if !company.companyName??>disabled</#if>>${(job.request)!''}</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="inputDescription"
+								class="col-sm-1 control-label no-padding-right">职位描述</label>
+							<div class="col-sm-11">
+								<textarea class="form-control" rows="10" name="description" <#if !company.companyName??>disabled</#if>>${(job.description)!''}</textarea>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-11">
+							<#if company.companyName??>
+								<button type="submit" class="btn btn-palegreen">Commit</button>
+							<#else>
+								<a href="/job/jobList.jhtml" class="btn btn-palegreen">Back</a>
+							</#if>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</@override> 
+<@override name="script_body">
+<script type="text/javascript" src="/assets/js/city/jquery.cityselect.js"></script>
+<script type="text/javascript">
+	    $("#e2").select2();
+	    $("#city_2").citySelect({prov:"${(job.jobProvince)!'湖北'}",city:"${(job.jobCity)!'武汉'}",dist:"${(job.jobDist)!'洪山区'}"});
+</script>
+
+</@override>
+<@extends name="/index.html"/> 
+

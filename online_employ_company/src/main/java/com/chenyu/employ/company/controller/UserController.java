@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.chenyu.employ.user.dto.UserDto;
+import com.chenyu.employ.user.dto.UserDetailDto;
 import com.chenyu.employ.user.model.User;
 import com.chenyu.employ.user.service.UserService;
 
@@ -21,14 +21,7 @@ public class UserController {
     private UserService userService;
     
     @RequestMapping("/userList")
-    public String userList(UserDto userDto,HttpServletRequest request,ModelMap map){
-    	userDto.setPageNo(0);
-    	userDto.setPageSize(10);
-        List<User> list=userService.getUserList(userDto);
-        System.out.println(list.size());
-        for(User user:list){
-        	System.out.println(user.getEmail());
-        }
+    public String userList(UserDetailDto userDto,HttpServletRequest request,ModelMap map){
         return "index";
     }
 }

@@ -3,66 +3,66 @@ package com.chenyu.employ.user.model;
 import java.sql.Timestamp;
 
 public class User {
-    private Integer id;
+    private Integer userId;
 
-    private String email;
+    private String userLoginName;
 
-    private String password;
+    private String userPassword;
 
-    private Integer status;
+    private Integer userStatus;
 
-    private Timestamp createTime;
+    private Timestamp userCreateTime;
     
-    private Timestamp updateTime;
+    private Timestamp userUpdateTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-    
-    public Integer getStatus() {
-    
-        return status;
-    }
-  
-    public void setStatus(Integer status) {
-    
-        this.status = status;
-    }
-
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-	public Timestamp getUpdateTime() {
-		return updateTime;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUpdateTime(Timestamp updateTime) {
-		this.updateTime = updateTime;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
+
+	public String getUserLoginName() {
+		return userLoginName;
+	}
+
+	public void setUserLoginName(String userLoginName) {
+		this.userLoginName = userLoginName;
+	}
+
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
+	public Integer getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(Integer userStatus) {
+		this.userStatus = userStatus;
+	}
+
+	public Timestamp getUserCreateTime() {
+		return userCreateTime;
+	}
+
+	public void setUserCreateTime(Timestamp userCreateTime) {
+		this.userCreateTime = userCreateTime;
+	}
+
+	public Timestamp getUserUpdateTime() {
+		return userUpdateTime;
+	}
+
+	public void setUserUpdateTime(Timestamp userUpdateTime) {
+		this.userUpdateTime = userUpdateTime;
+	}
+
+    
     
 }

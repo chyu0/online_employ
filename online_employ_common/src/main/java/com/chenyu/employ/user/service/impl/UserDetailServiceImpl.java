@@ -11,21 +11,27 @@ import com.chenyu.employ.user.service.UserDetailService;
 public class UserDetailServiceImpl implements UserDetailService{
 
     private UserDetailMapper userDetailMapper;
+
+	public UserDetail getUserDetailById(Integer id) {
+		return userDetailMapper.getUserDetailById(id);
+	}
+
+	public UserDetail getUserDetailByUserId(Integer userId) {
+		return userDetailMapper.getUserDetailByUserId(userId);
+	}
+
+	public void saveOrUpdate(UserDetail userDetail) {
+		if(userDetail.getUserDetailId()!=null){
+			userDetailMapper.saveUserDetail(userDetail);
+		}else{
+			userDetailMapper.updateUserDetail(userDetail);
+		}
+	}
+
+	public Integer getUserDetailCount(UserDetail userDetail) {
+		return userDetailMapper.getUserDetailCount(userDetail);
+	}
     
-    public void clearUserDetail(Integer id) {
-        userDetailMapper.clearUserDetail(id);
-    }
-
-    public UserDetail getUserDetailById(Integer id) {
-        return userDetailMapper.getUserDetailById(id);
-    }
-
-    public void addUserDetail(UserDetail record) {
-        userDetailMapper.addUserDetail(record);
-    }
-
-    public void updateUserDetail(UserDetail record) {
-        userDetailMapper.updateUserDetail(record);
-    }
+    
 
 }

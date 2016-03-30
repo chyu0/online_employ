@@ -1,8 +1,5 @@
 package com.chenyu.employ.user.dao;
 
-import java.util.List;
-
-import com.chenyu.employ.user.dto.UserDto;
 import com.chenyu.employ.user.model.User;
 
 public interface UserMapper {
@@ -10,7 +7,12 @@ public interface UserMapper {
 
     public User findUserById(Integer id);
 
-    public void changeUserStatus(UserDto user);
+    public void changeStatus(User user);
     
-    public List<User> getUserList(UserDto user);
+    public User isExistLoginName(String loginName);
+    
+    public User getUserByNameAndPasd(User user);
+    
+    public void modifyPassword(User user);
+    
 }

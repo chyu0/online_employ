@@ -1,155 +1,138 @@
 package com.chenyu.employ.user.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class UserDetail {
-    private Integer id;
+    private Integer userDetailId;
 
     private Integer userId;
 
-    private String loginname;
+    private String userRealName;
 
-    private String realname;
+    private String userHeadPic;
 
-    private String headpic;
+    private Integer userSex;
 
-    private Integer sex;
+    private Integer userAge;
 
-    private Integer age;
+    private Date userBirthday;
 
-    private Date birthdate;
+    private String userMobile;
 
-    private String mobile;
+    private String userEmail;
 
-    private String email;
+    private String userProvince;
 
-    private String experience;
+    private String userCity;
 
-    private String address;
+    private String userCollege;
+    
+    private Timestamp userDetailUpdateTime;
 
-    private Integer condition;
+	public Integer getUserDetailId() {
+		return userDetailId;
+	}
 
-    private String presalary;
+	public void setUserDetailId(Integer userDetailId) {
+		this.userDetailId = userDetailId;
+	}
 
-    private String college;
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public String getUserRealName() {
+		return userRealName;
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public void setUserRealName(String userRealName) {
+		this.userRealName = userRealName;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public String getUserHeadPic() {
+		return userHeadPic;
+	}
 
-    public String getLoginname() {
-        return loginname;
-    }
+	public void setUserHeadPic(String userHeadPic) {
+		this.userHeadPic = userHeadPic;
+	}
 
-    public void setLoginname(String loginname) {
-        this.loginname = loginname == null ? null : loginname.trim();
-    }
+	public Integer getUserSex() {
+		return userSex;
+	}
 
-    public String getRealname() {
-        return realname;
-    }
+	public void setUserSex(Integer userSex) {
+		this.userSex = userSex;
+	}
 
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
-    }
+	public Integer getUserAge() {
+		return userAge;
+	}
 
-    public String getHeadpic() {
-        return headpic;
-    }
+	public void setUserAge(Integer userAge) {
+		this.userAge = userAge;
+	}
 
-    public void setHeadpic(String headpic) {
-        this.headpic = headpic == null ? null : headpic.trim();
-    }
+	public Date getUserBirthday() {
+		return userBirthday;
+	}
 
-    public Integer getSex() {
-        return sex;
-    }
+	public void setUserBirthday(Date userBirthday) {
+		this.userBirthday = userBirthday;
+	}
 
-    public void setSex(Integer sex) {
-        this.sex = sex;
-    }
+	public String getUserMobile() {
+		return userMobile;
+	}
 
-    public Integer getAge() {
-        return age;
-    }
+	public void setUserMobile(String userMobile) {
+		this.userMobile = userMobile;
+	}
 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
+	public String getUserEmail() {
+		return userEmail;
+	}
 
-    public Date getBirthdate() {
-        return birthdate;
-    }
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
-    }
+	public String getUserProvince() {
+		return userProvince;
+	}
 
-    public String getMobile() {
-        return mobile;
-    }
+	public void setUserProvince(String userProvince) {
+		this.userProvince = userProvince;
+	}
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
+	public String getUserCity() {
+		return userCity;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setUserCity(String userCity) {
+		this.userCity = userCity;
+	}
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
+	public String getUserCollege() {
+		return userCollege;
+	}
 
-    public String getExperience() {
-        return experience;
-    }
+	public void setUserCollege(String userCollege) {
+		this.userCollege = userCollege;
+	}
 
-    public void setExperience(String experience) {
-        this.experience = experience;
-    }
+	public Timestamp getUserDetailUpdateTime() {
+		return userDetailUpdateTime;
+	}
 
-    public String getAddress() {
-        return address;
-    }
+	public void setUserDetailUpdateTime(Timestamp userDetailUpdateTime) {
+		this.userDetailUpdateTime = userDetailUpdateTime;
+	}
 
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
-
-    public Integer getCondition() {
-        return condition;
-    }
-
-    public void setCondition(Integer condition) {
-        this.condition = condition;
-    }
-
-    public String getPresalary() {
-        return presalary;
-    }
-
-    public void setPresalary(String presalary) {
-        this.presalary = presalary;
-    }
-
-    public String getCollege() {
-        return college;
-    }
-
-    public void setCollege(String college) {
-        this.college = college == null ? null : college.trim();
-    }
+    
 }

@@ -1,93 +1,106 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.chenyu.employ.user.dao.UserDetailMapper" >
-  <resultMap id="BaseResultMap" type="com.chenyu.employ.user.model.UserDetail" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="loginName" property="loginname" jdbcType="VARCHAR" />
-    <result column="realName" property="realname" jdbcType="VARCHAR" />
-    <result column="headPic" property="headpic" jdbcType="VARCHAR" />
-    <result column="sex" property="sex" jdbcType="SMALLINT" />
-    <result column="age" property="age" jdbcType="SMALLINT" />
-    <result column="birthdate" property="birthdate" jdbcType="DATE" />
-    <result column="mobile" property="mobile" jdbcType="CHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="experience" property="experience" jdbcType="VARCHAR" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="condition" property="condition" jdbcType="INTEGER" />
-    <result column="presalary" property="presalary" jdbcType="VARCHAR" />
-    <result column="college" property="college" jdbcType="VARCHAR" />
+  <resultMap id="resultMap" type="com.chenyu.employ.user.model.UserDetail" >
+    <id column="user_detail_id" property="userDetailId" jdbcType="INTEGER" />
+    <result column="user_real_name" property="userRealName" jdbcType="VARCHAR" />
+    <result column="user_head_pic" property="userHeadpic" jdbcType="VARCHAR" />
+    <result column="user_sex" property="userSex" jdbcType="INTEGER" />
+    <result column="user_age" property="userAge" jdbcType="INTEGER" />
+    <result column="user_birthday" property="userBirthday" jdbcType="DATE" />
+    <result column="user_mobile" property="userMobile" jdbcType="CHAR" />
+    <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+    <result column="user_province" property="userProvince" jdbcType="VARCHAR" />
+    <result column="user_city" property="userCity" jdbcType="VARCHAR" />
+    <result column="user_college" property="userCollege" jdbcType="VARCHAR" />
+    <result column="user_detail_update_time" property="userDetailUpdateTime" jdbcType="TIMESTAMP" />
+    <association property="userId" javaType="com.chenyu.employ.user.model.User">
+    	<id column="user_id" property="userId" jdbcType="INTEGER" />
+    	<result column="user_login_name" property="userLoginName" jdbcType="VARCHAR" />
+    	<result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+    	<result column="user_status" property="userStatus" jdbcType="INTEGER" />
+    	<result column="user_create_time" property="userCreateTime" jdbcType="TIMESTAMP" />
+    	<result column="user_update_time" property="userUpdateTime" jdbcType="TIMESTAMP"/>
+    </association>
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, user_id, loginName, realName, headPic, sex, age, birthdate, mobile, email, experience, 
-    address, condition, presalary, college
-  </sql>
   
-  <select id="getUserDetailById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
+  <select id="getUserDetailById" resultMap="resultMap" parameterType="java.lang.Integer" >
+    select
+    *
     from user_detail
-    where id = #{id,jdbcType=INTEGER}
+    where user_detail_id = #{userDetailId,jdbcType=INTEGER}
   </select>
   
-  <delete id="clearUserDetail" parameterType="java.lang.Integer" >
-    delete from user_detail
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  
-  
-  <insert id="addUserDetail" parameterType="com.chenyu.employ.user.model.UserDetail" >
-    insert into user_detail (id, user_id, loginName, 
-      realName, headPic, sex, 
-      age, birthdate, mobile, 
-      email, experience, address, 
-      condition, presalary, college
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{loginname,jdbcType=VARCHAR}, 
-      #{realname,jdbcType=VARCHAR}, #{headpic,jdbcType=VARCHAR}, #{sex,jdbcType=SMALLINT}, 
-      #{age,jdbcType=SMALLINT}, #{birthdate,jdbcType=DATE}, #{mobile,jdbcType=CHAR}, 
-      #{email,jdbcType=VARCHAR}, #{experience,jdbcType=SMALLINT}, #{address,jdbcType=VARCHAR}, 
-      #{condition,jdbcType=INTEGER}, #{presalary,jdbcType=INTEGER}, #{college,jdbcType=VARCHAR}
-      )
-  </insert>
-  
-  <update id="updateUserDetail" parameterType="com.chenyu.employ.user.model.UserDetail" >
-    update user_detail
-    <set >
-      <if test="realname != null" >
-        realName = #{realname,jdbcType=VARCHAR},
-      </if>
-      <if test="headpic != null" >
-        headPic = #{headpic,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null" >
-        sex = #{sex,jdbcType=SMALLINT},
-      </if>
-      <if test="age != null" >
-        age = #{age,jdbcType=SMALLINT},
-      </if>
-      <if test="birthdate != null" >
-        birthdate = #{birthdate,jdbcType=DATE},
-      </if>
-      <if test="mobile != null" >
-        mobile = #{mobile,jdbcType=CHAR},
-      </if>
-      <if test="experience != null" >
-        experience = #{experience,jdbcType=SMALLINT},
-      </if>
-      <if test="address != null" >
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="condition != null" >
-        condition = #{condition,jdbcType=INTEGER},
-      </if>
-      <if test="presalary != null" >
-        presalary = #{presalary,jdbcType=INTEGER},
-      </if>
-      <if test="college != null" >
-        college = #{college,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+  <select id="getUserDetailByUserId" resultMap="resultMap"
+		parameterType="com.chenyu.employ.user.dto.UserDetailDto">
+		select
+		*
+		from user_detail ud
+		inner join user u on ud.user_id=u.user_id
+		order by ud.user_detail_update_time desc
+		<if test="offset!=null and pageSize!=null and pageSize!=''">
+			limit #{offset},#{pageSize}
+    	</if>
+	</select>
+
+	<insert id="saveUserDetail" parameterType="com.chenyu.employ.user.model.UserDetail">
+		insert into user_detail (
+		user_id,user_real_name,user_head_pic,user_sex,user_age,user_birthday,user_email,
+		user_province,user_city,user_college,user_detail_update_time
+		)
+		values (
+		#{user.userId,jdbcType=INTEGER},
+		#{userRealName,jdbcType=VARCHAR},
+		#{userHeadPic,jdbcType=VARCHAR},
+		#{userSex,jdbcType=INTEGER},
+		#{userAge,jdbcType=INTEGER},
+		#{userBirthday,jdbcType=DATE},
+		#{userEmail,jdbcType=VARCHAR},
+		#{userProvince,jdbcType=VARCHAR},
+		#{userCity,jdbcType=VARCHAR},
+		#{userCollege,jdbcType=VARCHAR},
+		now()
+		)
+	</insert>
+
+	<update id="updateUserDetail" parameterType="com.chenyu.employ.user.model.UserDetail">
+		update user_detail
+		<set>
+			<if test="userRealName != null">
+				user_real_name = #{userRealName,jdbcType=VARCHAR},
+     		 </if>
+			<if test="userHeadPic != null">
+				user_head_pic = #{userHeadPic,jdbcType=VARCHAR},
+      		</if>
+			<if test="userSex != null">
+				user_sex = #{userSex,jdbcType=INTEGER},
+     		 </if>
+			<if test="userAge != null">
+				user_age = #{userAge,jdbcType=INTEGER},
+      		</if>
+			<if test="userBirthday != null">
+				user_birthday = #{userBirthday,jdbcType=DATE},
+      		</if>
+			<if test="userEmail != null">
+				user_email = #{userEmail,jdbcType=VARCHAR},
+      		</if>
+			<if test="userProvince != null">
+				user_province = #{userProvince,jdbcType=VARCHAR},
+      		</if>
+			<if test="userCity != null">
+				user_city = #{userCity,jdbcType=VARCHAR},
+      		</if>
+			<if test="userCollege != null">
+				user_college = #{userCollege,jdbcType=VARCHAR},
+     		 </if>
+			user_detail_update_time=now()
+		</set>
+		where user_detail_id = #{userDetailId,jdbcType=INTEGER}
+	</update>
+
+	<select id="getUserDetailCount" parameterType="com.chenyu.employ.user.model.UserDetail"
+		resultType="INTEGER">
+		select count(*) from user_detail ud inner join user u on
+		ud.user_detail_id=u.user_id
+	</select>
 </mapper>

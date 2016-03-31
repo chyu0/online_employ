@@ -61,7 +61,7 @@
 
 		order by cd.weight desc, cd.update_time desc
 		<if test="offset!=null and pageSize!=null and pageSize!=''">
-			limit #{offset},#{pageSize}
+			limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     	</if>
 	</select>
 

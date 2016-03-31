@@ -1,17 +1,16 @@
 package com.chenyu.employ.company.dto;
 
-import com.chenyu.employ.common.utils.CommonUtils;
 import com.chenyu.employ.company.model.CompanyDetail;
 
 public class CompanyDetailDto extends CompanyDetail{
     /**
      * 页码
      */
-    private Integer pageNo=CommonUtils.pageNo;
+    private Integer pageNo=1;
     /**
      * 分页大小
      */
-    private int pageSize=CommonUtils.pageSize;
+    private int pageSize=10;
     
     /**
      * 分页开始位置

@@ -40,7 +40,6 @@ public class JobController extends BaseController {
 		companyDetail.setCompany(company);
 		jobDto.setCompanyDetail(companyDetail);
 		List<Job> jobList = jobService.getJobList(jobDto);
-		map.addAttribute("jobList", jobList);
 		PaginationUtil<Job> page=new PaginationUtil<Job>(jobDto.getPageNo(),jobDto.getPageSize());
 		page.setItems(jobList);
 		page.setTotalCount(jobService.getJobCount(jobDto));

@@ -1,0 +1,121 @@
+<@override name="page_body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="well with-header with-footer">
+                                <div class="header bordered-pink">
+                                                                                                   企业用户列表(共有${page.getTotalCount()!''}条记录)
+                                </div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                        	<th><i class="fa fa-briefcase"></i>序号</th>
+                                            <th>
+                                                <i class="fa fa-briefcase"></i> 用户名
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-user"></i> 真实姓名
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-shopping-cart"></i> 邮箱
+                                            </th>
+                                            <th>
+                                            	<i class="fa fa-briefcase"></i>联系电话
+                                            </th>
+                                            <th>
+                                            	<i class="fa fa-briefcase"></i>性别
+                                            </th>
+                                            <th>
+                                            	<i class="fa fa-briefcase"></i>地址
+                                            </th>
+                                            <th>
+                                            	<i class="fa fa-briefcase"></i>毕业院校
+                                            </th>
+                                            <th>
+                                            	<i class="fa fa-briefcase"></i>更新时间
+                                            </th>
+                                            <th>
+                                            	<i class="fa fa-briefcase"></i>操作
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                   					<#list page.getItems() as item>
+                                        <tr>
+                                            <td>
+                                                ${(page.pageNo-1)*page.pageSize+item_index+1}
+                                            </td>
+                                            <td>
+                                                ${(item.user.userLoginName)!''}
+                                            </td>
+                                            <td>
+                                                ${(item.userRealName)!''}
+                                            </td>
+                                            <td>
+                                                ${(item.userEmail)!''}
+                                            </td>
+                                            <td>
+                                                ${(item.userMobile)!''}
+                                            </td>
+                                            <td>
+                                                ${(SexType.getStatusByFlag((item.userSex)!0).getTitle())!''}
+                                            </td>
+                                            <td>
+                                                ${(item.userProvince)!''}${(item.userCity)!''}
+                                            </td>
+                                            <td>
+                                                ${(item.userCollege)!''}
+                                            </td>
+                                            <td>
+                                                ${(item.userDetailUpdateTime?string('yyyy-MM-dd HH:mm:ss'))!''}
+                                            </td>
+                                            <td>
+                                           	<a href="toEdit.jhtml?userDetailId=${item.userDetailId!''}" class="btn btn-default btn-xs purple"><i class="fa fa-edit"></i> 查看</a>
+                                           	
+                                            <a href="#" title="${(UserStatus.getStatusByFlag((item.user.userStatus+1)%2).getTitle())!''}" data_params={"userId":"${item.user.userId!''}","userStatus":"${item.user.userStatus!''}"} class="btn btn-default btn-xs purple lockOrActive" ><#if item.user.userStatus==0><i class="fa fa-edit"></i> 激活<#else><i class="fa fa-edit"></i>锁定</#if></a>
+                                            </td>
+                                        </tr>	
+                  						</#list>
+                                    </tbody>
+                                </table>
+
+                                <div class="footer dataTables_paginate paging_bootstrap" style="padding: 0px">
+                                    	<#include "/pagination.html">                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+</@override>
+<@override name="script_body"> 
+	<script type="text/javascript">
+	   $(".lockOrActive").on('click', function () {
+		   var context="你确定要执行"+$(this).attr("title")+"操作吗？";
+           bootbox.confirm(context, function (result) {
+        	   var data_params= $(".lockOrActive").attr("data_params");
+               if (result) {
+            	   $.ajax( {  
+      		         type : "post",  
+      		         url : "/user/lockOrActiveUser.jhtml",  
+      		         dataType:"json",
+      		         data :  $.parseJSON(data_params),
+      		         success : function(data, textStatus) {
+      			        if(data.state.code==200){
+      			        	setTimeout('window.location="/user/userList.jhtml"',1500);
+      			        	Notify('操作成功', 'bottom-right', '1500', 'success', 'fa-desktop', true);
+      				    }else{	
+      				    	Notify(data.state.msg, 'bottom-right', '1500', 'danger', 'fa-desktop', true);
+      					}
+      		         }
+      		     });  
+               }
+           });
+       });
+
+	   $("#page").on('click',function(){
+			var no=$("#no").val();
+			location.href="${requestUrl}?pageNo="+no;
+		});
+	</script>
+</@override>
+<@extends name="/index.html"/> 

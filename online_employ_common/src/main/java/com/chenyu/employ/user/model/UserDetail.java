@@ -6,7 +6,7 @@ import java.util.Date;
 public class UserDetail {
     private Integer userDetailId;
 
-    private Integer userId;
+    private User user;
 
     private String userRealName;
 
@@ -38,12 +38,12 @@ public class UserDetail {
 		this.userDetailId = userDetailId;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getUserRealName() {

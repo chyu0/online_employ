@@ -30,12 +30,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public void lockOrActiveUser(User user) {
-		if(user.getUserStatus().equals(UserStatus.active.getFlag())){
-			user.setUserStatus(UserStatus.lock.getFlag());
-		}
-		if(user.getUserStatus().equals(UserStatus.lock.getFlag())){
-			user.setUserStatus(UserStatus.active.getFlag());
-		}
+		user.setUserStatus((user.getUserStatus()+1)%2);
 		userMapper.changeStatus(user);
 	}
 

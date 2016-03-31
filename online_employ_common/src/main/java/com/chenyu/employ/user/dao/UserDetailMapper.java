@@ -1,5 +1,8 @@
 package com.chenyu.employ.user.dao;
 
+import java.util.List;
+
+import com.chenyu.employ.user.dto.UserDetailDto;
 import com.chenyu.employ.user.model.UserDetail;
 
 public interface UserDetailMapper {
@@ -11,5 +14,5 @@ public interface UserDetailMapper {
 
     public void updateUserDetail(UserDetail record);
     
-    public UserDetail getUserDetailByUserId(Integer userId);
+    public List<UserDetail> getUserDetailByUserId(UserDetailDto userDetailDto);
 }

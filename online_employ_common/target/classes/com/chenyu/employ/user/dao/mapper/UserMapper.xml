@@ -16,7 +16,7 @@
   <select id="findUserById" resultType="com.chenyu.employ.user.model.User" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from company
+    from user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
   
@@ -54,7 +54,7 @@
   </update>
   
   <update id="changeStatus" parameterType="com.chenyu.employ.user.model.User" >
-    update user set user_status=#{userStatus,jdbcType=INTEGER}
+    update user set user_status=#{userStatus,jdbcType=INTEGER},user_update_time=now()
     where user_id = #{userId,jdbcType=INTEGER}
   </update> 
 </mapper>

@@ -9,10 +9,10 @@ public class PaginationUtil<T> implements Serializable {
     private static final long serialVersionUID = 5472321653620726832L;
 
     // 当前页
-    private int pageNo = CommonUtils.pageNo;
+    private int pageNo = 1;
 
     // 每页显示数量
-    private int pageSize = CommonUtils.pageSize;
+    private int pageSize = 10;
 
     // 总条数
     private int totalCount;

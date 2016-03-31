@@ -24,10 +24,10 @@
   
   <insert id="register" parameterType="com.chenyu.employ.company.model.Company" >
     insert into company (cid, companyName, loginName, 
-      password, status, create_time
+      password, status, create_time,update_time
       )
     values (null, #{companyName,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
+      #{password,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, now(),now()
       )
   </insert>
   
@@ -51,12 +51,13 @@
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
       </if>
+      update_time=now()
     </set>
     where cid = #{cid,jdbcType=INTEGER}
   </update>
   
   <update id="changeStatus" parameterType="com.chenyu.employ.company.model.Company" >
-    update company set status=#{status,jdbcType=INTEGER}
+    update company set status=#{status,jdbcType=INTEGER},update_time=now()
     where cid = #{cid,jdbcType=INTEGER}
   </update> 
   

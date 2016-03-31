@@ -1,0 +1,102 @@
+<@override name="page_body">
+<div class="row">
+	<div class="col-lg-10 col-sm-6 col-xs-12">
+		<div class="widget">
+			<div class="widget-header bordered-bottom bordered-palegreen">
+				<span class="widget-caption">用户信息详情</span>
+			</div>
+			<div class="widget-body">
+				<div>
+					<form class="form-horizontal form-bordered" role="form" action="" method="post">
+						
+						<div class="form-group">
+
+							<label for="inputExperience"
+								class="col-sm-1 control-label no-padding-right">登陆名</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" disabled
+									value="${(userDetail.user.userLoginName)!''}">
+							</div>
+							<label for="inputJobField"
+								class="col-sm-1 control-label no-padding-right">真实姓名</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" disabled
+									value="${(userDetail.userRealName)!''}">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="inputEmail3"
+								class="col-sm-1 control-label no-padding-right">用户头像</label>
+							<div class="col-sm-5">
+								<img src="${userDetail.userHeadPic!''}" width="100" height="100" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="inputBrithday"
+								class="col-sm-1 control-label no-padding-right">手机号码</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" disabled
+									 value="${userDetail.userMobile!''}">
+							</div>
+							<label for="inputCollege"
+								class="col-sm-1 control-label no-padding-right">邮箱</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" disabled
+									 value="${userDetail.userEmail!''}">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="inputAddress"
+								class="col-sm-1 control-label no-padding-right">地址</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" disabled
+									value="${userDetail.userProvince!''}${userDetail.userCity!''}">
+							</div>
+							<label for="inputSex"
+								class="col-sm-1 control-label no-padding-right">性别</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" disabled
+									placeholder="" value="${SexType.getStatusByFlag(userDetail.userSex!0).getTitle()}">
+							</div>
+							<label for="inputAge"
+								class="col-sm-1 control-label no-padding-right">年龄</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" disabled
+									 value="${userDetail.userAge!''}">
+							</div>
+						</div>
+									
+						<div class="form-group">
+							<label for="inputBrithday"
+								class="col-sm-1 control-label no-padding-right">生日</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" disabled
+									 value="${(userDetail.userBirthday?string('yyyy/MM/dd'))!''}">
+							</div>
+							<label for="inputCollege"
+								class="col-sm-1 control-label no-padding-right">毕业院校</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" disabled
+									 value="${userDetail.userCollege!''}">
+							</div>
+							
+						</div>
+						
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-11">
+								<a href="/job/jobList.jhtml" class="btn btn-palegreen">Back</a>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</@override> 
+<@extends name="/index.html"/> 
+

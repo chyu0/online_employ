@@ -69,7 +69,7 @@
 	    </if>
 	    order by publish_time desc,weight asc
 	    <if test="offset!=null and pageSize!=null and pageSize!=''">
-			limit #{offset},#{pageSize}
+			limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     	</if>
   </select>  
   
@@ -145,9 +145,6 @@
       </if>
       <if test="salary != null" >
         salary = #{salary,jdbcType=INTEGER},
-      </if>
-      <if test="publishTime != null" >
-        publish_time = #{publishTime,jdbcType=TIMESTAMP},
       </if>
       <if test="request != null" >
         request = #{request,jdbcType=VARCHAR},

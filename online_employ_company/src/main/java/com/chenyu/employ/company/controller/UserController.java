@@ -53,8 +53,8 @@ public class UserController extends BaseController{
     @RequestMapping("/toEdit")
     public String toEdit(Integer userDetailId,HttpServletRequest request,ModelMap map){
     	UserDetail userInfo=userDetailService.getUserDetailById(userDetailId);
-    	User user=userService.findUserById(userInfo.getUser().getUserId());
-    	userInfo.setUser(user);
+    	Integer userId=userInfo.getUser().getUserId();
+    	userInfo.setUser(userService.findUserById(userId));
     	map.addAttribute("userDetail",userInfo);
     	return "/user/user_edit";
     }

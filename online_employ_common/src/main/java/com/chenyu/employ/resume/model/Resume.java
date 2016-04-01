@@ -1,11 +1,15 @@
 package com.chenyu.employ.resume.model;
 
+import java.sql.Timestamp;
+
+import com.chenyu.employ.user.model.UserDetail;
+
 public class Resume {
     private Integer resumeId;
 
-    private Integer userId;
+    private UserDetail userDetail;
 
-    private String individualInfo;
+    private String userPicture;
 
     private String education;
 
@@ -13,13 +17,19 @@ public class Resume {
 
     private String workLife;
 
-    private String field;
+    private String condition;
 
     private String collegeExperience;
 
     private String language;
 
     private String trainExperience;
+    
+    private String evaluation;
+    
+    private Timestamp resumeUpdateTime;
+    
+    private Timestamp resumeCreateTime;
 
     public Integer getResumeId() {
         return resumeId;
@@ -27,22 +37,6 @@ public class Resume {
 
     public void setResumeId(Integer resumeId) {
         this.resumeId = resumeId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getIndividualInfo() {
-        return individualInfo;
-    }
-
-    public void setIndividualInfo(String individualInfo) {
-        this.individualInfo = individualInfo == null ? null : individualInfo.trim();
     }
 
     public String getEducation() {
@@ -69,15 +63,55 @@ public class Resume {
         this.workLife = workLife == null ? null : workLife.trim();
     }
 
-    public String getField() {
-        return field;
-    }
+    public UserDetail getUserDetail() {
+		return userDetail;
+	}
 
-    public void setField(String field) {
-        this.field = field == null ? null : field.trim();
-    }
+	public void setUserDetail(UserDetail userDetail) {
+		this.userDetail = userDetail;
+	}
 
-    public String getCollegeExperience() {
+	public String getUserPicture() {
+		return userPicture;
+	}
+
+	public void setUserPicture(String userPicture) {
+		this.userPicture = userPicture;
+	}
+
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public String getEvaluation() {
+		return evaluation;
+	}
+
+	public void setEvaluation(String evaluation) {
+		this.evaluation = evaluation;
+	}
+
+	public Timestamp getResumeUpdateTime() {
+		return resumeUpdateTime;
+	}
+
+	public void setResumeUpdateTime(Timestamp resumeUpdateTime) {
+		this.resumeUpdateTime = resumeUpdateTime;
+	}
+
+	public Timestamp getResumeCreateTime() {
+		return resumeCreateTime;
+	}
+
+	public void setResumeCreateTime(Timestamp resumeCreateTime) {
+		this.resumeCreateTime = resumeCreateTime;
+	}
+
+	public String getCollegeExperience() {
         return collegeExperience;
     }
 

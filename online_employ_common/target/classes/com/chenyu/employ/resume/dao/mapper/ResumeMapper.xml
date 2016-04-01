@@ -1,153 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.chenyu.employ.resume.dao.ResumeMapper" >
-  <resultMap id="BaseResultMap" type="com.chenyu.employ.resume.model.Resume" >
+  <resultMap id="resultMap" type="com.chenyu.employ.resume.model.Resume" >
     <id column="resume_id" property="resumeId" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="individual_info" property="individualInfo" jdbcType="VARCHAR" />
+    <result column="user_picture" property="userPicture" jdbcType="VARCHAR" />
     <result column="education" property="education" jdbcType="VARCHAR" />
-    <result column="work_experience" property="workExperience" jdbcType="VARCHAR" />
-    <result column="work_life" property="workLife" jdbcType="VARCHAR" />
-    <result column="field" property="field" jdbcType="VARCHAR" />
+    <result column="condition" property="condition" jdbcType="VARCHAR" />
+    <result column="work_life" property="workLife" jdbcType="INTEGER" />
+    <result column="evaluation" property="evaluaiton" jdbcType="VARCHAR" />
+    <result column="work_experience" property="workExperience" jdbcType="VARCHAR"/>
     <result column="college_experience" property="collegeExperience" jdbcType="VARCHAR" />
     <result column="language" property="language" jdbcType="VARCHAR" />
     <result column="train_experience" property="trainExperience" jdbcType="VARCHAR" />
+    <result column="resume_update_time" property="resumeUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="resume_create_time" property="resumeCreateTime" jdbcType="TIMESTAMP"/>
+    <association property="userDetail" javaType="com.chenyu.employ.user.model.UserDetail">
+    	<id column="user_detail_id" property="userDetailId" jdbcType="INTEGER" />
+    	<result column="user_real_name" property="userRealName" jdbcType="VARCHAR" />
+    	<result column="user_head_pic" property="userHeadpic" jdbcType="VARCHAR" />
+    	<result column="user_sex" property="userSex" jdbcType="INTEGER" />
+    	<result column="user_age" property="userAge" jdbcType="INTEGER" />
+    	<result column="user_birthday" property="userBirthday" jdbcType="DATE" />
+    	<result column="user_mobile" property="userMobile" jdbcType="CHAR" />
+    	<result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+    	<result column="user_province" property="userProvince" jdbcType="VARCHAR" />
+    	<result column="user_city" property="userCity" jdbcType="VARCHAR" />
+    	<result column="user_college" property="userCollege" jdbcType="VARCHAR" />
+    	<result column="user_field" property="userField" jdbcType="VARCHAR"/>
+    	<result column="user_detail_update_time" property="userDetailUpdateTime" jdbcType="TIMESTAMP" />
+   	 <association property="user" javaType="com.chenyu.employ.user.model.User">
+    	<id column="user_id" property="userId" jdbcType="INTEGER" />
+    	<result column="user_login_name" property="userLoginName" jdbcType="VARCHAR" />
+    	<result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+    	<result column="user_status" property="userStatus" jdbcType="INTEGER" />
+    	<result column="user_create_time" property="userCreateTime" jdbcType="TIMESTAMP" />
+    	<result column="user_update_time" property="userUpdateTime" jdbcType="TIMESTAMP"/>
+   	 </association>
+    </association>
   </resultMap>
-  <sql id="Base_Column_List" >
-    resume_id, user_id, individual_info, education, work_experience, work_life, field, 
-    college_experience, language, train_experience
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from resume
-    where resume_id = #{resumeId,jdbcType=INTEGER}
+  
+  <select id="getResumeList" resultMap="resultMap" parameterType="com.chenyu.employ.resume.dto.ResumeDto">
+
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from resume
-    where resume_id = #{resumeId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.chenyu.employ.resume.model.Resume" >
-    insert into resume (resume_id, user_id, individual_info, 
-      education, work_experience, work_life, 
-      field, college_experience, language, 
-      train_experience)
-    values (#{resumeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{individualInfo,jdbcType=VARCHAR}, 
-      #{education,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{workLife,jdbcType=VARCHAR}, 
-      #{field,jdbcType=VARCHAR}, #{collegeExperience,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, 
-      #{trainExperience,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.chenyu.employ.resume.model.Resume" >
-    insert into resume
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="resumeId != null" >
-        resume_id,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="individualInfo != null" >
-        individual_info,
-      </if>
-      <if test="education != null" >
-        education,
-      </if>
-      <if test="workExperience != null" >
-        work_experience,
-      </if>
-      <if test="workLife != null" >
-        work_life,
-      </if>
-      <if test="field != null" >
-        field,
-      </if>
-      <if test="collegeExperience != null" >
-        college_experience,
-      </if>
-      <if test="language != null" >
-        language,
-      </if>
-      <if test="trainExperience != null" >
-        train_experience,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="resumeId != null" >
-        #{resumeId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="individualInfo != null" >
-        #{individualInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="education != null" >
-        #{education,jdbcType=VARCHAR},
-      </if>
-      <if test="workExperience != null" >
-        #{workExperience,jdbcType=VARCHAR},
-      </if>
-      <if test="workLife != null" >
-        #{workLife,jdbcType=VARCHAR},
-      </if>
-      <if test="field != null" >
-        #{field,jdbcType=VARCHAR},
-      </if>
-      <if test="collegeExperience != null" >
-        #{collegeExperience,jdbcType=VARCHAR},
-      </if>
-      <if test="language != null" >
-        #{language,jdbcType=VARCHAR},
-      </if>
-      <if test="trainExperience != null" >
-        #{trainExperience,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chenyu.employ.resume.model.Resume" >
-    update resume
-    <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="individualInfo != null" >
-        individual_info = #{individualInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="education != null" >
-        education = #{education,jdbcType=VARCHAR},
-      </if>
-      <if test="workExperience != null" >
-        work_experience = #{workExperience,jdbcType=VARCHAR},
-      </if>
-      <if test="workLife != null" >
-        work_life = #{workLife,jdbcType=VARCHAR},
-      </if>
-      <if test="field != null" >
-        field = #{field,jdbcType=VARCHAR},
-      </if>
-      <if test="collegeExperience != null" >
-        college_experience = #{collegeExperience,jdbcType=VARCHAR},
-      </if>
-      <if test="language != null" >
-        language = #{language,jdbcType=VARCHAR},
-      </if>
-      <if test="trainExperience != null" >
-        train_experience = #{trainExperience,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where resume_id = #{resumeId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chenyu.employ.resume.model.Resume" >
-    update resume
-    set user_id = #{userId,jdbcType=INTEGER},
-      individual_info = #{individualInfo,jdbcType=VARCHAR},
-      education = #{education,jdbcType=VARCHAR},
-      work_experience = #{workExperience,jdbcType=VARCHAR},
-      work_life = #{workLife,jdbcType=VARCHAR},
-      field = #{field,jdbcType=VARCHAR},
-      college_experience = #{collegeExperience,jdbcType=VARCHAR},
-      language = #{language,jdbcType=VARCHAR},
-      train_experience = #{trainExperience,jdbcType=VARCHAR}
-    where resume_id = #{resumeId,jdbcType=INTEGER}
-  </update>
 </mapper>

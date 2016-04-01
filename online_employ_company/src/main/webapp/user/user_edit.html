@@ -36,15 +36,21 @@
 						<div class="form-group">
 							<label for="inputBrithday"
 								class="col-sm-1 control-label no-padding-right">手机号码</label>
-							<div class="col-sm-5">
+							<div class="col-sm-3">
 								<input type="text" class="form-control" disabled
 									 value="${userDetail.userMobile!''}">
 							</div>
 							<label for="inputCollege"
 								class="col-sm-1 control-label no-padding-right">邮箱</label>
-							<div class="col-sm-5">
+							<div class="col-sm-3">
 								<input type="text" class="form-control" disabled
 									 value="${userDetail.userEmail!''}">
+							</div>
+							<label for="inputCollege"
+								class="col-sm-1 control-label no-padding-right">领域</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" disabled
+									 value="${(Field.getStatusByFlag(userDetail.userField).getTitle())!''}">
 							</div>
 						</div>
 						

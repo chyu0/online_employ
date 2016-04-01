@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.chenyu.employ.user.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.chenyu.employ.user.model.User" >
+  <resultMap id="resultMap" type="com.chenyu.employ.user.model.User" >
     <id column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="user_login_name" property="userLoginName" jdbcType="VARCHAR" />
     <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
@@ -13,7 +13,7 @@
     user_id, user_login_name, user_password, user_status, user_create_time,user_update_time
   </sql>
   
-  <select id="findUserById" resultType="com.chenyu.employ.user.model.User" parameterType="java.lang.Integer" >
+  <select id="findUserById" resultMap="resultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from user
@@ -29,14 +29,14 @@
       )
   </insert>
   
-  <select id="isExistLoginName" parameterType="String" resultType="com.chenyu.employ.user.model.User">
+  <select id="isExistLoginName" parameterType="String" resultMap="resultMap">
   	select
   	<include refid="Base_Column_List"/>
   	from user
   	where user_login_name=#{userLoginName,jdbcType=VARCHAR}
   </select>
   
-  <select id="getUserByNameAndPasd" resultType="com.chenyu.employ.user.model.User" parameterType="com.chenyu.employ.company.model.Company">
+  <select id="getUserByNameAndPasd" resultMap="resultMap" parameterType="com.chenyu.employ.user.model.User">
   	select
   	<include refid="Base_Column_List" />
   	from user
@@ -57,4 +57,5 @@
     update user set user_status=#{userStatus,jdbcType=INTEGER},user_update_time=now()
     where user_id = #{userId,jdbcType=INTEGER}
   </update> 
+  
 </mapper>

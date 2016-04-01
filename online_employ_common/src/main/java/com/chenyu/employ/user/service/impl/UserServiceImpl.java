@@ -3,7 +3,6 @@ package com.chenyu.employ.user.service.impl;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import com.chenyu.employ.common.enums.UserStatus;
 import com.chenyu.employ.user.dao.UserMapper;
 import com.chenyu.employ.user.model.User;
 import com.chenyu.employ.user.service.UserService;

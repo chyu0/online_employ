@@ -31,6 +31,9 @@
                                             	<i class="fa fa-briefcase"></i>毕业院校
                                             </th>
                                             <th>
+                                            	<i class="fa fa-briefcase"></i>所在领域
+                                            </th>
+                                            <th>
                                             	<i class="fa fa-briefcase"></i>更新时间
                                             </th>
                                             <th>
@@ -64,6 +67,9 @@
                                             </td>
                                             <td>
                                                 ${(item.userCollege)!''}
+                                            </td>
+                                            <td>
+                                            	${(Field.getStatusByFlag(item.userField).getTitle())!''}
                                             </td>
                                             <td>
                                                 ${(item.userDetailUpdateTime?string('yyyy-MM-dd HH:mm:ss'))!''}

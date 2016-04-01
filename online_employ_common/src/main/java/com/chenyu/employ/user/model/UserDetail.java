@@ -28,6 +28,8 @@ public class UserDetail {
 
     private String userCollege;
     
+    private Integer userField;
+    
     private Timestamp userDetailUpdateTime;
 
 	public Integer getUserDetailId() {
@@ -124,6 +126,14 @@ public class UserDetail {
 
 	public void setUserCollege(String userCollege) {
 		this.userCollege = userCollege;
+	}
+
+	public Integer getUserField() {
+		return userField;
+	}
+
+	public void setUserField(Integer userField) {
+		this.userField = userField;
 	}
 
 	public Timestamp getUserDetailUpdateTime() {

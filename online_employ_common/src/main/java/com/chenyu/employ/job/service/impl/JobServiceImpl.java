@@ -55,5 +55,9 @@ public class JobServiceImpl implements JobService{
 	public void pulishAgain(Integer jobId) {
 		jobMapper.pulishAgain(jobId);
 	}
+
+	public List<Job> getList() {
+		return jobMapper.getList();
+	}
 	
 }

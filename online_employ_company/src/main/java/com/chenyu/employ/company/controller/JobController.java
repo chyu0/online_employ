@@ -1,6 +1,7 @@
 package com.chenyu.employ.company.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +12,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.chenyu.employ.apply.model.Apply;
+import com.chenyu.employ.apply.service.ApplyService;
+import com.chenyu.employ.apply.utils.ApplyUtils;
 import com.chenyu.employ.common.base.BaseController;
 import com.chenyu.employ.common.error.EmployAssert;
 import com.chenyu.employ.common.error.ErrorType;
@@ -31,7 +35,8 @@ public class JobController extends BaseController {
 	private JobService jobService;
 	@Autowired
 	private CompanyDetailService companyDetailService;
-	
+	@Autowired
+	private ApplyService applyService;
 
 	@RequestMapping("/jobList")
 	public String getJobList(JobDto jobDto, HttpServletRequest request, ModelMap map) {
@@ -46,6 +51,9 @@ public class JobController extends BaseController {
 		map.addAttribute("page",page);
 		map.addAttribute("requestUrl",request.getRequestURL().toString());
 		map.addAttribute("company", company);
+		List<Apply> applyList=applyService.getApplyList();
+		Map<Integer,List<Apply>> applyMap=ApplyUtils.getApplyListByJobId(applyList);
+		map.addAttribute("applyMap",applyMap);
 		return "/job/job_list";
 	}
 

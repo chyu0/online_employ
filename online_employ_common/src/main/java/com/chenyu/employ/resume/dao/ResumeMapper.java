@@ -1,17 +1,14 @@
 package com.chenyu.employ.resume.dao;
 
+import java.util.List;
+
+import com.chenyu.employ.resume.dto.ResumeDto;
 import com.chenyu.employ.resume.model.Resume;
 
 public interface ResumeMapper {
-    int deleteByPrimaryKey(Integer resumeId);
-
-    int insert(Resume record);
-
-    int insertSelective(Resume record);
-
-    Resume selectByPrimaryKey(Integer resumeId);
-
-    int updateByPrimaryKeySelective(Resume record);
-
-    int updateByPrimaryKey(Resume record);
+    public List<Resume> getResumeList();
+    
+    public Resume getResumeByResumeId(Integer resumeId);
+    
+    public List<Resume> getResumePaginList(ResumeDto resumeDto);
 }

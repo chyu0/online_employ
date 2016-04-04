@@ -50,6 +50,20 @@
 		</association>
     </association>
   </resultMap>
+  <select id="getList" resultMap="resultMap">
+  	select 
+  	*
+  	 from job j inner join(select
+		cd_id,c.companyName as companyName,
+		c.cid,
+		c.status,
+		c.create_time,
+		company_type,company_introduce, establish_date,staff_number,
+		contact_tel, offsite_url,
+		logo,address,province,city,dist,zipcode,field,company_email,weight,cd.update_time
+		from company_detail cd
+		inner join company c on cd.company_id=c.cid) c_d on j.companydetail_id=c_d.cd_id
+  </select>
   
   <select id="getJobList" resultMap="resultMap" parameterType="com.chenyu.employ.job.dto.JobDto">
   	select 

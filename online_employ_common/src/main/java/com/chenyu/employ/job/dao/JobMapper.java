@@ -9,6 +9,8 @@ public interface JobMapper {
     
     public List<Job> getJobList(JobDto jobDto);
     
+    public List<Job> getList();
+    
     public Integer getJobCount(Job job);
     
     public Job getJobByJobId(Integer jobId);

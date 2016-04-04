@@ -39,7 +39,21 @@
     </association>
   </resultMap>
   
-  <select id="getResumeList" resultMap="resultMap" parameterType="com.chenyu.employ.resume.dto.ResumeDto">
-
+  <select id="getResumePaginList" resultMap="resultMap" parameterType="com.chenyu.employ.resume.dto.ResumeDto">
+	select * from resume inner join user_detail on resume.user_id=user_detail.user_detail_id
+	order by resume_update_time desc
+	<if test="offset!=null and pageSize!=null and pageSize!=''">
+		limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </if>
   </select>
+  
+  <select id="getResumeByResumeId" resultMap="resultMap" parameterType="Integer">
+  	select * from resume inner join user_detail on resume.user_id=user_detail.user_detail_id
+  	and resume.resume_id=#{resumeId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getResumeList" resultMap="resultMap">
+	select * from resume inner join user_detail on resume.user_id=user_detail.user_detail_id
+  </select>
+  
 </mapper>

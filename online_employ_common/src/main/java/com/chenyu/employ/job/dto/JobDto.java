@@ -10,12 +10,12 @@ public class JobDto extends Job {
 	/**
 	 * 分页大小
 	 */
-	private int pageSize = 10;
+	private Integer pageSize = 10;
 
 	/**
 	 * 分页开始位置
 	 */
-	private int offset = (pageNo - 1) * pageSize;
+	private Integer offset = (pageNo - 1) * pageSize;
 
 	public Integer getPageNo() {
 		return pageNo;
@@ -34,11 +34,11 @@ public class JobDto extends Job {
 		this.offset = offset;
 	}
 
-	public int getPageSize() {
+	public Integer getPageSize() {
 		return pageSize;
 	}
 
-	public void setPageSize(int pageSize) {
+	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
 

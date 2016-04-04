@@ -1,135 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.chenyu.employ.apply.dao.Apply" >
-  <resultMap id="BaseResultMap" type="com.chenyu.employ.apply.model.Apply" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="job_id" property="jobId" jdbcType="INTEGER" />
-    <result column="resume_id" property="resumeId" jdbcType="INTEGER" />
+<mapper namespace="com.chenyu.employ.apply.dao.ApplyMapper" >
+  <resultMap id="applyMap" type="com.chenyu.employ.apply.model.Apply" >
+    <id column="apply_id" property="applyId" jdbcType="INTEGER" />
     <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="apply_status" property="applyStatus" jdbcType="INTEGER" />
+    <result column="apply_message" property="applyMessage" jdbcType="VARCHAR" />
+    <result property="jobId" column="job_id" jdbcType="INTEGER" />  
+    <result property="resumeId" column="resume_id" jdbcType="INTEGER" />  
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, user_id, job_id, resume_id, apply_time, status, message
-  </sql>
   
-  <select id="findAllApplyUser" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List"/>
-  	form apply
-  	<where>
-  		<if test="jobId!=null and jobId!=''">
-  			and job_id = #{jobId}
-  		</if>
-  		<if test="status!=null and status!=''">
-  			and status = #{status}
-  		</if>
-  	</where>
-  	order by job_id asc , apply_time desc
+  <select id="getApplyListByJobId" resultMap="applyMap" parameterType="com.chenyu.employ.apply.dto.ApplyDto">
+  	select * from apply where 1=1
+  	<if test="jobList!=null">
+  	and job_id in
+  	<foreach item="item" index="index" collection="jobList" open="(" separator="," close=")">  
+  		#{item.jobId,jdbcType=INTEGER}
+ 	</foreach>
+  	</if>
+  	<if test="jobId!=null and jobId!=''">
+  	and job_id=#{jobId,jdbcType=INTEGER}
+  	</if>
+  	<if test="offset!=null and pageSize!=null and pageSize!=''">
+		limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </if>
   </select>
   
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from apply
-    where id = #{id,jdbcType=INTEGER}
+  <select id="getApplyList" resultMap="applyMap">
+  	select * from apply
   </select>
   
   
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from apply
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.chenyu.employ.apply.model.Apply" >
-    insert into apply (id, user_id, job_id, 
-      resume_id, apply_time, status, 
-      message)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{jobId,jdbcType=INTEGER}, 
-      #{resumeId,jdbcType=INTEGER}, #{applyTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
-      #{message,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.chenyu.employ.apply.model.Apply" >
-    insert into apply
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="jobId != null" >
-        job_id,
-      </if>
-      <if test="resumeId != null" >
-        resume_id,
-      </if>
-      <if test="applyTime != null" >
-        apply_time,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="message != null" >
-        message,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="jobId != null" >
-        #{jobId,jdbcType=INTEGER},
-      </if>
-      <if test="resumeId != null" >
-        #{resumeId,jdbcType=INTEGER},
-      </if>
-      <if test="applyTime != null" >
-        #{applyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="message != null" >
-        #{message,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chenyu.employ.apply.model.Apply" >
-    update apply
-    <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="jobId != null" >
-        job_id = #{jobId,jdbcType=INTEGER},
-      </if>
-      <if test="resumeId != null" >
-        resume_id = #{resumeId,jdbcType=INTEGER},
-      </if>
-      <if test="applyTime != null" >
-        apply_time = #{applyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="message != null" >
-        message = #{message,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chenyu.employ.apply.model.Apply" >
-    update apply
-    set user_id = #{userId,jdbcType=INTEGER},
-      job_id = #{jobId,jdbcType=INTEGER},
-      resume_id = #{resumeId,jdbcType=INTEGER},
-      apply_time = #{applyTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=TINYINT},
-      message = #{message,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+  <select id="getApplyCount" resultType="Integer" parameterType="com.chenyu.employ.apply.model.Apply">
+  	select count(*) from apply where 1=1
+  	<if test="jobId!=null and jobId!=''">
+  		and job_id = #{jobId,jdbcType=INTEGER}
+  	</if>
+  </select>
 </mapper>

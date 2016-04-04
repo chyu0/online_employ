@@ -1,0 +1,97 @@
+<@override name="page_body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="well with-header with-footer">
+                                <div class="header bordered-pink">
+                                                                                                   申请列表(共有${page.getTotalCount()!''}条记录)
+                                </div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                        	<th>序号</th>
+                                        	<th>发布企业</th>
+                                            <th>职位</th>
+                                            <th>申请人</th>
+                                            <th>申请人电话</th>
+                                            <th>申请人邮箱 </th>
+                                            <th>申请时间</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                   					<#list page.getItems() as item>
+                                        <tr>
+                                            <td>
+                                                ${(page.pageNo-1)*page.pageSize+item_index+1}
+                                            </td>
+                                            <td>
+                                                ${(jobMap.get(item.applyId).getCompanyDetail().getCompany().getCompanyName())!''}
+                                            </td>
+                                            <td>
+                                                ${(jobMap.get(item.applyId).getJobName())!''}
+                                            </td>
+                                            <td>
+                                                ${(resumeMap.get(item.applyId).getUserDetail().getUserRealName())!''}
+                                            </td>
+                                            <td>
+                                                ${(resumeMap.get(item.applyId).getUserDetail().getUserMobile())!''}
+                                            </td>
+                                            <td>
+                                                ${(resumeMap.get(item.applyId).getUserDetail().getUserEmail())!''}
+                                            </td>
+                                            <td>
+                                                ${(item.applyTime?string('yyyy-MM-dd HH:mm:ss'))!''}
+                                            </td>
+                                            <td>
+                                                ${(ApplyStatus.getStatusByFlag(item.applyStatus).getTitle())!''}
+                                            </td>
+                                            <td>
+                                           		
+                                            </td>
+                                        </tr>	
+                  						</#list>
+                                    </tbody>
+                                </table>
+
+                                <div class="footer dataTables_paginate paging_bootstrap" style="padding: 0px">
+                                    	<#include "/pagination.html">                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+</@override>
+<@override name="script_body"> 
+	<script type="text/javascript">
+	   $(".lockOrActive").on('click', function () {
+		   var context="你确定要执行"+$(this).attr("title")+"操作吗？";
+           bootbox.confirm(context, function (result) {
+        	   var data_params= $(".lockOrActive").attr("data_params");
+               if (result) {
+            	   $.ajax( {  
+      		         type : "post",  
+      		         url : "/user/lockOrActiveUser.jhtml",  
+      		         dataType:"json",
+      		         data :  $.parseJSON(data_params),
+      		         success : function(data, textStatus) {
+      			        if(data.state.code==200){
+      			        	setTimeout('window.location="/user/userList.jhtml"',1500);
+      			        	Notify('操作成功', 'bottom-right', '1500', 'success', 'fa-desktop', true);
+      				    }else{	
+      				    	Notify(data.state.msg, 'bottom-right', '1500', 'danger', 'fa-desktop', true);
+      					}
+      		         }
+      		     });  
+               }
+           });
+       });
+
+	   $("#page").on('click',function(){
+			var no=$("#no").val();
+			location.href="${requestUrl}?pageNo="+no;
+		});
+	</script>
+</@override>
+<@extends name="/index.html"/> 

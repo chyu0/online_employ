@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.chenyu.employ.apply.model.Apply;
+import com.chenyu.employ.common.enums.ApplyStatus;
 import com.chenyu.employ.job.model.Job;
 import com.chenyu.employ.resume.model.Resume;
 
@@ -57,5 +58,23 @@ public class ApplyUtils {
 			}
 		}
 		return jobMap;
+	}
+	
+	public static List<ApplyStatus> getAvailApplyStatus(Integer flag){
+		List<ApplyStatus> applyList=new ArrayList<ApplyStatus>();
+		if(ApplyStatus.wait.getFlag().equals(flag)){
+			for(ApplyStatus status:ApplyStatus.values()){
+				if(!ApplyStatus.wait.getFlag().equals(status.getFlag())){
+					applyList.add(status);
+				}
+			}
+		}else{
+			for(ApplyStatus status:ApplyStatus.values()){
+				if(!ApplyStatus.wait.getFlag().equals(status.getFlag())&&!ApplyStatus.getStatusByFlag(flag).equals(status.getFlag())){
+					applyList.add(status);
+				}
+			}
+		}
+		return applyList;
 	}
 }

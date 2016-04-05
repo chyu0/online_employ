@@ -7,7 +7,7 @@
     <result column="apply_status" property="applyStatus" jdbcType="INTEGER" />
     <result column="apply_message" property="applyMessage" jdbcType="VARCHAR" />
     <result property="jobId" column="job_id" jdbcType="INTEGER" />  
-    <result property="resumeId" column="resume_id" jdbcType="INTEGER" />  
+    <result property="resumeId" column="resume_id" jdbcType="INTEGER" />
   </resultMap>
   
   <select id="getApplyListByJobId" resultMap="applyMap" parameterType="com.chenyu.employ.apply.dto.ApplyDto">
@@ -37,4 +37,8 @@
   		and job_id = #{jobId,jdbcType=INTEGER}
   	</if>
   </select>
+  
+  <update id="changeApplyStatus" parameterType="com.chenyu.employ.apply.model.Apply">
+  	update apply set apply_status=#{applyStatus,jdbcType=INTEGER} where apply_id=#{applyId,jdbcType=INTEGER}
+  </update>
 </mapper>

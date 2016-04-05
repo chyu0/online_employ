@@ -9,14 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chenyu.employ.apply.dto.ApplyDto;
 import com.chenyu.employ.apply.model.Apply;
 import com.chenyu.employ.apply.service.ApplyService;
 import com.chenyu.employ.apply.utils.ApplyUtils;
+import com.chenyu.employ.common.base.BaseController;
 import com.chenyu.employ.common.utils.PaginationUtil;
 import com.chenyu.employ.company.model.Company;
-import com.chenyu.employ.company.model.CompanyDetail;
+import com.chenyu.employ.company.service.CompanyDetailService;
 import com.chenyu.employ.company.util.SessionManager;
 import com.chenyu.employ.job.dto.JobDto;
 import com.chenyu.employ.job.model.Job;
@@ -26,7 +28,7 @@ import com.chenyu.employ.resume.service.ResumeService;
 
 @Controller
 @RequestMapping("/apply")
-public class ApplyController {
+public class ApplyController extends BaseController{
 	
 	@Autowired
 	private ApplyService applyService;
@@ -37,14 +39,15 @@ public class ApplyController {
 	@Autowired
 	private JobService jobService;
 	
+	@Autowired
+	private CompanyDetailService companyDetailService;
+	
 	@RequestMapping("/applyList")
 	public String applyList(HttpServletRequest request,ModelMap map,ApplyDto applyDto){
 		Company company = SessionManager.get(request);
-		CompanyDetail companyDetail = new CompanyDetail();
-		companyDetail.setCompany(company);
 		JobDto job=new JobDto();
 		job.setPageSize(0);//pageSize=0不分页
-		job.setCompanyDetail(companyDetail);
+		job.setCompanyDetail(companyDetailService.getCompanyDetailByCompany(company));
 		List<Job> jobList = jobService.getJobList(job);//获取当前用户中的企业列表
 		applyDto.setJobList(jobList);
 		List<Apply> applyList=applyService.getApplyListByJobId(applyDto);//jobId必须在jobList以内
@@ -59,5 +62,12 @@ public class ApplyController {
 		Map<Integer,Job> jobMap=ApplyUtils.getJobByApplyId(applyList, jobList);
 		map.addAttribute("jobMap", jobMap);//申请id，工作
 		return "/apply/apply_list";
+	}
+	
+	@RequestMapping("/changeStatus")
+	@ResponseBody
+	public String changeStatus(HttpServletRequest request,ModelMap map,Apply apply){
+		applyService.changeApplyStatus(apply);
+		return jsonSuccess();
 	}
 }

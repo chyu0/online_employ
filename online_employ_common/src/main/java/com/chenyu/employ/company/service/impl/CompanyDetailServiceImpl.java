@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.chenyu.employ.company.dao.CompanyDetailMapper;
 import com.chenyu.employ.company.dto.CompanyDetailDto;
+import com.chenyu.employ.company.model.Company;
 import com.chenyu.employ.company.model.CompanyDetail;
 import com.chenyu.employ.company.service.CompanyDetailService;
 
@@ -39,6 +40,10 @@ public class CompanyDetailServiceImpl implements CompanyDetailService {
 
 	public void changeWeight(CompanyDetail companyDetail) {
 		companyDetailMapper.changeWeight(companyDetail);
+	}
+
+	public CompanyDetail getCompanyDetailByCompany(Company company) {
+		return companyDetailMapper.getCompanyDetailByCompany(company);
 	}
 	
 	

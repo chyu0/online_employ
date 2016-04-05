@@ -12,4 +12,6 @@ public interface ApplyMapper {
    public List<Apply> getApplyList();
    
    public Integer getApplyCount(Apply apply);
+   
+   public void changeApplyStatus(Apply apply);
 }

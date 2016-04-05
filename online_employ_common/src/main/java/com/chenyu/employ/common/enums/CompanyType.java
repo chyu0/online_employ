@@ -4,8 +4,8 @@ public enum CompanyType {
 StateOwner(0,"国企"),
 Foreignnterprise (1,"外企"),
 Privateusiness(2,"民营企业"),
-Quotedompany(3,"上市公司"),
-StartupCompany(4,"上市公司"),
+QuotedCompany(3,"上市公司"),
+StartupCompany(4,"创业公司"),
 Institution(5,"事业单位"),
 Government(6,"政府机关"),
 Other(7,"其他") ;

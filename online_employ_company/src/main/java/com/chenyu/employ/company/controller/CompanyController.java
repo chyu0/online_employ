@@ -42,7 +42,7 @@ public class CompanyController extends BaseController{
 		EmployAssert.notNull(company,ErrorType.SYSTEM_BUSY);
 		companyDetailDto.setCompany(company);
 		List<CompanyDetail> companyList=companyDetailService.getCompanyDetailByCompanyId(companyDetailDto);
-		//企业还未被创建公司详情信息
+		//还未被创建公司详情信息
 		if(companyList==null||companyList.size()<=0){
 			logger.debug("未发现详细信息");
 		}

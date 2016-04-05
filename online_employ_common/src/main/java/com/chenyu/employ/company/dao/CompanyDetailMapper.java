@@ -3,6 +3,7 @@ package com.chenyu.employ.company.dao;
 import java.util.List;
 
 import com.chenyu.employ.company.dto.CompanyDetailDto;
+import com.chenyu.employ.company.model.Company;
 import com.chenyu.employ.company.model.CompanyDetail;
 
 public interface CompanyDetailMapper {
@@ -12,4 +13,5 @@ public interface CompanyDetailMapper {
     public void update(CompanyDetail companyDetail);
     public Integer getCompanyDetailCount(CompanyDetail detail);
     public void changeWeight(CompanyDetail companyDetail);
+    public CompanyDetail getCompanyDetailByCompany(Company company);
 }

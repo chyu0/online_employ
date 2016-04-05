@@ -1,9 +1,9 @@
 <@override name="page_body">
 <div class="row">
-	<div class="col-lg-10 col-sm-6 col-xs-12">
+	<div class="col-lg-12 col-sm-6 col-xs-12">
 		<div class="widget">
 			<div class="widget-header bordered-bottom bordered-palegreen">
-				<span class="widget-caption">工作信息<#if !company.companyName??>查看<#else>编辑</#if>(${(job.companyDetail.company.companyName)!''})</span>
+				<span class="widget-caption">工作信息<#if !company.companyName??>查看(${(job.companyDetail.company.companyName)!''})<#else>编辑</#if></span>
 			</div>
 			<div class="widget-body">
 				<div>
@@ -47,7 +47,7 @@
 								<#if company.companyName??>
 								
 								<select class="e1" style="width: 100%;" name="jobField">
-								<option value=''>--请选择--</option>
+								<option value=''>${(Field.getStatusByFlag(companyDetail.field?number).getTitle())!'--请选择--'}</option>
 									<#list Field.values() as item>
 										<option value="${item.getFlag()!''}" <#if item.getFlag()??&&(job.jobField)??&&item.getFlag()==(job.jobField)>selected</#if>/> ${item.getTitle()!''}
 									</#list>
@@ -87,7 +87,7 @@
 								</div>
 								<div class="col-xs-6">
 								<input type="text" class="form-control" name="jobAddress"
-									placeholder="" value="${(job.jobAddress)!''}">
+									placeholder="" value=${(job.jobAddress)!"${(companyDetail.address)!''}"}>
 								</div>
 							<#else>
 								<input type="text" class="form-control" name="jobAddress" disabled
@@ -133,7 +133,9 @@
 <script type="text/javascript" src="/assets/js/city/jquery.cityselect.js"></script>
 <script type="text/javascript">
 	    $("#e2").select2();
-	    $("#city_2").citySelect({prov:"${(job.jobProvince)!'湖北'}",city:"${(job.jobCity)!'武汉'}",dist:"${(job.jobDist)!'洪山区'}"});
+	    $("#city_2").citySelect({//当新建工作时去公司地址为默认地址
+	    prov:'${(job.jobProvince)!"${(companyDetail.province)!''}"}',city:'${(job.jobCity)!"${(companyDetail.city)!''}"}',dist:'${(job.jobDist)!"${(companyDetail.dist)!''}"}'
+	    });
 </script>
 
 </@override>

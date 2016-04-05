@@ -53,7 +53,7 @@ public class JobController extends BaseController {
 		map.addAttribute("company", company);
 		List<Apply> applyList=applyService.getApplyList();
 		Map<Integer,List<Apply>> applyMap=ApplyUtils.getApplyListByJobId(applyList);
-		map.addAttribute("applyMap",applyMap);
+		map.addAttribute("applyMap",applyMap);//获取申请人数
 		return "/job/job_list";
 	}
 
@@ -63,6 +63,9 @@ public class JobController extends BaseController {
 		Job job=jobService.getJobByJobId(jobId);
 		map.addAttribute("job",job);
 		map.addAttribute("company", company);
+		if(jobId==null) {
+			map.addAttribute("companyDetail", companyDetailService.getCompanyDetailByCompany(company));
+		}
 		return "/job/job_edit";
 	}
 	

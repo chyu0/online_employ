@@ -78,7 +78,7 @@
 		logo,address,province,city,dist,zipcode,field,company_email,weight,cd.update_time
 		from company_detail cd
 		inner join company c on cd.company_id=c.cid) c_d on j.companydetail_id=c_d.cd_id
-	    <if test="companyDetail.company.companyName!=null and companyDetail.company.companyName!=''">
+	    <if test="companyDetail!=null and companyDetail.company.companyName!=null and companyDetail.company.companyName!=''">
 	    	and j.companydetail_id=#{companyDetail.company.cid,jdbcType=INTEGER}
 	    </if>
 	    order by publish_time desc,weight asc

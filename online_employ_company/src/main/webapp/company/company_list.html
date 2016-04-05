@@ -69,7 +69,7 @@
                                             <td>
                                            	<a href="toEdit.jhtml?cdId=${item.cdId!''}" class="btn btn-default btn-xs purple"><i class="fa fa-edit"></i> <#if company.cid??&&item.company.cid??&&company.cid == item.company.cid>编辑<#else>查看</#if></a>
                                            	<#if !(company.cid??&&item.company.cid??&&company.cid == item.company.cid)>
-                                            <a href="#" title="${(UserStatus.getStatusByFlag(item.company.status).getTitle())!''}" class="btn btn-default btn-xs purple lockOrActive" status="${item.company.status!''}" cid="${item.company.cid!''}"><#if item.company.status==0><i class="fa fa-edit"></i> 激活<#else><i class="fa fa-edit"></i>冻结</#if></a>
+                                            <a href="#" title="${(UserStatus.getStatusByFlag((item.company.status+1)%2).getTitle())!''}" class="btn btn-default btn-xs purple lockOrActive" status="${item.company.status!''}" cid="${item.company.cid!''}"><#if item.company.status==0><i class="fa fa-edit"></i> 激活<#else><i class="fa fa-edit"></i>冻结</#if></a>
                                             <a href="#" title="${item.cdId!''}" weight="${item.weight!0}" class="btn btn-default btn-xs purple changeWeight">修改权值</a>
                                             <#else>
                                              <a href="#" title="${item.company.cid!''}" oldPassword="${item.company.password!''}" class="btn btn-default btn-xs purple changePassword">修改密码</a>

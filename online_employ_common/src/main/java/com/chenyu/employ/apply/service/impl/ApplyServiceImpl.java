@@ -29,5 +29,7 @@ public class ApplyServiceImpl implements ApplyService {
 		return applyMapper.getApplyCount(apply);
 	}
 	
-	
+	public void changeApplyStatus(Apply apply){
+		 applyMapper.changeApplyStatus(apply);  
+	}
 }

@@ -9,4 +9,5 @@ public interface ApplyService {
 	public List<Apply> getApplyListByJobId(ApplyDto applyDto);
 	public List<Apply> getApplyList();
 	public Integer getApplyCount(Apply apply);
+	public void changeApplyStatus(Apply apply);
 }

@@ -87,15 +87,17 @@ Purchase: http://wrapbootstrap.com
 	    <script src="/assets/js/toastr/toastr.js"></script>
     <!--Beyond Scripts-->
     <script src="assets/js/beyond.js"></script>
+    <script src="assets/js/md5.js"></script>
 		
 	<script type="text/javascript">
 		$("#loginButton").click(function(){
+			var password=$("#password").val();
 			$.ajax( {  
 		         type : "post",  
 		         url : "/auth.jhtml",  
 		         scriptCharset: 'utf-8',
 		         dataType:"json",
-		         data : {loginname:$("#loginname").val(),password:$("#password").val()},
+		         data : {loginname:$("#loginname").val(),password:$.md5(password)},
 		         success : function(data, textStatus) {
 			        if(data.state.code==200){
 			        	setTimeout('window.location="/index.jhtml"',1500);

@@ -54,7 +54,7 @@
                                             	<a href="#" data_params={"applyId":"${item.applyId!''}","applyStatus":"1"}  title="你确定要审批通过？" class="btn btn-success btn-xs purple changeStatus">通过</a>
                                             </#if>
                                             
-                                           		<a href="toSeeResume.jhtml?resumeId=${(resumeMap.get(item.applyId).getResumeId())!''}" class="btn btn-default btn-xs purple">简历详情</a>
+                                           		<a href="/resume/toSeeResume.jhtml?resumeId=${(resumeMap.get(item.applyId).getResumeId())!''}" class="btn btn-default btn-xs purple">简历详情</a>
                                             </td>
                                         </tr>
                   						</#list>

@@ -16,6 +16,8 @@ public class Company {
     private Timestamp createTime;
     
     private Timestamp updateTime;
+    
+    private Integer roleId;
 
 	public Integer getCid() {
 		return cid;
@@ -73,6 +75,12 @@ public class Company {
 		this.updateTime = updateTime;
 	}
 
+	public Integer getRoleId() {
+		return roleId;
+	}
 
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
     
 }

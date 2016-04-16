@@ -90,6 +90,7 @@
 
 </@override>
 <@override name="script_body"> 
+	<script src="/assets/js/md5.js"></script>
 	<script type="text/javascript">
 	   $(".lockOrActive").on('click', function () {
 		   var context="你确定要执行"+$(this).attr("title")+"操作吗？";
@@ -169,7 +170,7 @@ $(".changePassword").bind('click', function () {
 								type : "post",  
 						        url : "/company/changePassword.jhtml",  
 						        dataType:"json",
-						        data : {"cid":cid,"password":password,"oldPassword":oldPassword,"confirmPassword":confirmPassword},
+						        data : {"cid":cid,"password":$.md5(password),"oldPassword":$.md5(oldPassword),"confirmPassword":$.md5(confirmPassword)},
 						        success : function(data, textStatus) {
 							        if(data.state.code==200){
 							        	setTimeout('window.location="/company/companyList.jhtml"',1500);

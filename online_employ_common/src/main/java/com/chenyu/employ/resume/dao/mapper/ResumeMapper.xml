@@ -56,4 +56,5 @@
 	select * from resume inner join user_detail on resume.user_id=user_detail.user_detail_id
   </select>
   
+  
 </mapper>

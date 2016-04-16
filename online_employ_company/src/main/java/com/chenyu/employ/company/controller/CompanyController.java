@@ -48,7 +48,8 @@ public class CompanyController extends BaseController{
 		}
 		map.addAttribute("company",company);
 		
-		PaginationUtil<CompanyDetail> page=new PaginationUtil<CompanyDetail>(companyDetailDto.getPageNo(),companyDetailDto.getPageSize());
+		PaginationUtil<CompanyDetail> page=
+				new PaginationUtil<CompanyDetail>(companyDetailDto.getPageNo(),companyDetailDto.getPageSize());
 		page.setItems(companyList);
 		page.setTotalCount(companyDetailService.getCompanyDetailCount(companyDetailDto));
 		map.addAttribute("page",page);

@@ -141,6 +141,11 @@
 			<bean id="loginInterceptor"
 				class="com.chenyu.employ.company.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean id="menuInterceptor"
+				class="com.chenyu.employ.company.interceptor.MenuInterceptor" />
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 	<bean id="transactionManager"

@@ -9,10 +9,11 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="role_id" property="roleId" jdbcType="INTEGER"/>
   </resultMap>
   
   <sql id="Base_Column_List" >
-    cid, companyName, loginName, password, status, create_time,update_time
+    cid, companyName, loginName, password, status, create_time,update_time,role_id
   </sql>
   
   <select id="findCompanyById" resultType="com.chenyu.employ.company.model.Company" parameterType="java.lang.Integer" >
@@ -24,10 +25,10 @@
   
   <insert id="register" parameterType="com.chenyu.employ.company.model.Company" >
     insert into company (cid, companyName, loginName, 
-      password, status, create_time,update_time
+      password, status, create_time,update_time,role_id
       )
     values (null, #{companyName,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, now(),now()
+      #{password,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, now(),now(),#{roleId}
       )
   </insert>
   

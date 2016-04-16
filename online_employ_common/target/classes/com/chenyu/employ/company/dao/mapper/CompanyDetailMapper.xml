@@ -170,7 +170,7 @@
 		<set>
 			<if test="weight!=null and weight!=''">
 				weight=#{weight,jdbcType=INTEGER},
-  		</if>
+  			</if>
 		</set>
 		where cd_id=#{cdId,jdbcType=INTEGER}
 	</update>

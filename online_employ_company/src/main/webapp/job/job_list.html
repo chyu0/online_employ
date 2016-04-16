@@ -5,9 +5,11 @@
                                 <div class="header bordered-pink">
                                                                                                    发布工作列表(共有${page.getTotalCount()!''}条记录)
                               <div class="widget-buttons pull-right">
+                              <#if company.companyName?? && company.companyName!=''>
                               			<a href="toEdit.jhtml" class="btn btn-default">
                                             <i class="glyphicon glyphicon-plus"></i>添加
                                         </a>
+                               </#if>
                               </div>
                                 
                                 </div>

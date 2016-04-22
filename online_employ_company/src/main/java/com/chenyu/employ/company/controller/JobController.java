@@ -98,7 +98,7 @@ public class JobController extends BaseController {
 		if(job.getJobId()==null){
 			CompanyDetailDto companyDetail=new CompanyDetailDto();
 			companyDetail.setCompany(company);
-			job.setCompanyDetail(companyDetailService.getCompanyDetailByCompanyId(companyDetail).get(0));
+			job.setCompanyDetail(companyDetailService.getCompanyDetailList(companyDetail).get(0));
 		}
 		jobService.saveOrUpdateJob(job);
 		return "redirect:jobList.jhtml";

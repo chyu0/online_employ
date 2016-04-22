@@ -55,7 +55,7 @@
 		from company_detail cd
 
 		inner join company c on cd.company_id=c.cid
-		<if test="company.companyName!=null and company.companyName!=''">
+		<if test="company!=null and company.companyName!=null and company.companyName!=''">
 			and cd.company_id = #{company.cid,jdbcType=INTEGER}
 		</if>
 

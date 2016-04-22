@@ -41,4 +41,12 @@ public enum SalaryRange {
         return null;
     }
     
+    public static SalaryRange getStatusByTitle(String title){
+    	for(SalaryRange status:SalaryRange.values()){
+            if(status.getTitle().equals(title)){
+                return status;
+            }
+        }
+        return null;
+    }
 }

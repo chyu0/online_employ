@@ -8,5 +8,6 @@
   <modules>
     <module>online_employ_company</module>
     <module>online_employ_common</module>
+    <module>online_employ_front</module>
   </modules>
 </project>

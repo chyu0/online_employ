@@ -7,7 +7,7 @@ import com.chenyu.employ.company.model.Company;
 import com.chenyu.employ.company.model.CompanyDetail;
 
 public interface CompanyDetailService {
-	public List<CompanyDetail> getCompanyDetailByCompanyId(CompanyDetailDto dto);
+	public List<CompanyDetail> getCompanyDetailList(CompanyDetailDto dto);
 	public CompanyDetail getCompanyDetailById(Integer id);
 	public void save(CompanyDetail companyDetail);
     public void update(CompanyDetail companyDetail);

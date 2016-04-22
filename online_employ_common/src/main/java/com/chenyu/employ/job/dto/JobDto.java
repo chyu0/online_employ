@@ -10,7 +10,7 @@ public class JobDto extends Job {
 	/**
 	 * 分页大小
 	 */
-	private Integer pageSize = 10;
+	private Integer pageSize = 1;
 
 	/**
 	 * 分页开始位置

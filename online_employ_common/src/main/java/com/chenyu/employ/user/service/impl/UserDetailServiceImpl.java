@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.chenyu.employ.user.dao.UserDetailMapper;
 import com.chenyu.employ.user.dto.UserDetailDto;
+import com.chenyu.employ.user.model.User;
 import com.chenyu.employ.user.model.UserDetail;
 import com.chenyu.employ.user.service.UserDetailService;
 
@@ -36,6 +37,10 @@ public class UserDetailServiceImpl implements UserDetailService{
 
 	public Integer getUserDetailCount(UserDetail userDetail) {
 		return userDetailMapper.getUserDetailCount(userDetail);
+	}
+
+	public UserDetail getUserDetailByUser(User user) {
+		return userDetailMapper.getUserDetailByUser(user);
 	} 
 
 }

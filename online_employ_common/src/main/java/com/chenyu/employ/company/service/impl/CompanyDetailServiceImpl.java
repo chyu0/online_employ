@@ -18,7 +18,7 @@ public class CompanyDetailServiceImpl implements CompanyDetailService {
 	@Resource
 	private CompanyDetailMapper companyDetailMapper;
 	
-	public List<CompanyDetail> getCompanyDetailByCompanyId(CompanyDetailDto companyDetailDto){
+	public List<CompanyDetail> getCompanyDetailList(CompanyDetailDto companyDetailDto){
 		return companyDetailMapper.getCompanyDetailByCompanyId(companyDetailDto);
 	}
 

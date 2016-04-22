@@ -104,4 +104,9 @@
 		select count(*) from user_detail ud inner join user u on
 		ud.user_detail_id=u.user_id
 	</select>
+	
+	<select id="getUserDetailByUser" parameterType="com.chenyu.employ.user.model.User" resultMap="resultMap">
+		select * from user_detail ud inner join user u
+		where u.user_id=ud.user_id
+	</select>
 </mapper>

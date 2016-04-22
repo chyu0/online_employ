@@ -34,4 +34,13 @@ public enum ExperienceRange {
         }
         return null;
     }
+    
+    public static ExperienceRange getStatusByTitle(String title){
+    	for(ExperienceRange status:ExperienceRange.values()){
+            if(status.getTitle().equals(title)){
+                return status;
+            }
+        }
+        return null;
+    }
 }
